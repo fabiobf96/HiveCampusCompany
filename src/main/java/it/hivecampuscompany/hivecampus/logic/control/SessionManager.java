@@ -1,55 +1,60 @@
 package it.hivecampuscompany.hivecampus.logic.control;
 
+
+
+import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
 import it.hivecampuscompany.hivecampus.logic.model.Session;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SessionManager {
-    private static SessionManager instance = null;
+    private static SessionManager instance;
+    private List<Session> sessions;
 
-    // Attributi della sessione
-    private String username;
-    private Map<String, Object> sessionData = new HashMap<>();
-
-    private SessionManager() {
-        // Costruttore privato per il pattern Singleton
+    private SessionManager(){
+        sessions = new ArrayList<>();
     }
 
-    public static SessionManager getInstance() {
-        if (instance == null) {
+    public static SessionManager getInstance(){
+        if (instance == null){
             instance = new SessionManager();
         }
         return instance;
     }
 
-    public void login(String username) {
-        this.username = username;
-        // Qui puoi inizializzare altri dati necessari per la sessione
+    public Session createSession(Account account){
+        for (Session session: sessions) {
+            if(session.getAccount().equals(account)){
+                return session;
+            }
+        }
+        Session session = new Session(account.hashCode(), account);
+        sessions.add(session);
+        return session;
     }
 
-    public void logout() {
-        this.username = null;
-        this.sessionData.clear();
-        // Qui puoi gestire altre operazioni necessarie alla disconnessione
+    public boolean isValid(SessionBean sessionBean){
+        for (Session session: sessions){
+            if(session.getId() == sessionBean.getId()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public boolean isLoggedIn() {
-        return this.username != null;
+    public void closeSession(SessionBean sessionBean){
+        sessions.removeIf(session -> session.getId() == sessionBean.getId());
     }
 
-    public void setAttribute(String key, Object value) {
-        sessionData.put(key, value);
+    public Account getAccount(SessionBean sessionBean) throws IllegalArgumentException{
+        for (Session session: sessions){
+            if(session.getId() == sessionBean.getId()) {
+                return  session.getAccount();
+            }
+        }
+        throw new IllegalArgumentException("Invalid Session");
     }
 
-    public Object getAttribute(String key) {
-        return sessionData.get(key);
-    }
-
-    public String getUsername() {
-        return username;
-    }
 }
