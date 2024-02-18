@@ -10,7 +10,11 @@ import java.sql.SQLException;
 
 public class CRUDQueries {
 
-    public static void insertAccount(Connection conn, Account account) {
+    private CRUDQueries(){
+        //Default constructor
+    }
+
+    public static void insertAccount(Connection conn, Account account) throws SQLException {
         String sql = "INSERT INTO hivecampus.account (username, password, ruolo) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, account.getEmail());
@@ -18,12 +22,10 @@ public class CRUDQueries {
             pstmt.setString(3, account.getTypeAccount());
 
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Account insertion failed.");
         }
     }
 
-    public static void  insertOwner(Connection conn, Account account) {
+    public static void  insertOwner(Connection conn, Account account) throws SQLException {
         String sql = "INSERT INTO hivecampus.proprietario (username, nome, cognome, telefono) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -34,12 +36,9 @@ public class CRUDQueries {
 
             pstmt.executeUpdate();
         }
-        catch (SQLException e) {
-            throw new RuntimeException("Tenant insertion failed.");
-        }
     }
 
-    public static void  insertTenant(Connection conn, Account account) {
+    public static void  insertTenant(Connection conn, Account account) throws SQLException {
         String sql = "INSERT INTO hivecampus.affittuario (username, nome, cognome, telefono) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -49,9 +48,6 @@ public class CRUDQueries {
             pstmt.setString(4, account.getPhoneNumber());
 
             pstmt.executeUpdate();
-        }
-        catch (SQLException e) {
-            throw new RuntimeException("Owner insertion failed.");
         }
     }
 }
