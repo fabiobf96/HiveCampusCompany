@@ -61,7 +61,7 @@ public class LoginCliController {
         } catch (EmptyFieldsException | InvalidEmailException | AuthenticateException e) {
             view.displayMessage(e.getMessage());
             handleUserChoice();
-        } catch (SQLException | ClassNotFoundException | FailedLoginException | NoSuchAlgorithmException e) {
+        } catch (SQLException | FailedLoginException | NoSuchAlgorithmException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
             System.exit(1);
         }
@@ -120,7 +120,7 @@ public class LoginCliController {
         } catch (DuplicateRowException e) {
             view.displayMessage(e.getMessage());
             handleUserChoice();
-        } catch (EmptyFieldsException | SQLException | ClassNotFoundException | NoSuchAlgorithmException e) {
+        } catch (SQLException | NoSuchAlgorithmException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
             System.exit(1);
         }

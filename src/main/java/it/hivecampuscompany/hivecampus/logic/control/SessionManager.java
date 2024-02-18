@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SessionManager {
     private static SessionManager instance;
-    private List<Session> sessions;
+    private final List<Session> sessions;
 
     private SessionManager(){
         sessions = new ArrayList<>();

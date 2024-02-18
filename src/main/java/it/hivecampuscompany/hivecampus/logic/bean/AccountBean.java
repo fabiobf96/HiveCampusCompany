@@ -1,6 +1,7 @@
 package it.hivecampuscompany.hivecampus.logic.bean;
 
 import it.hivecampuscompany.hivecampus.logic.exception.EmptyFieldsException;
+import it.hivecampuscompany.hivecampus.logic.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.logic.exception.PasswordMismatchException;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
 
@@ -26,6 +27,12 @@ public class AccountBean extends CredentialsBean{
         this.name = storedName;
         this.surname = storedSurname;
         this.phoneNumber = storedPhoneNumber;
+    }
+    @Override
+    public void setEmail(String email) throws InvalidEmailException, EmptyFieldsException {
+        if(email.isEmpty()) throw new EmptyFieldsException("E-mail field is empty");
+        validateEmail(email);
+        this.email = email;
     }
 
     public void setPassword(String password, String confirmPassword) throws PasswordMismatchException, EmptyFieldsException {

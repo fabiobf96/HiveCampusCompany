@@ -6,8 +6,6 @@ import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.logic.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.logic.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.logic.exception.DuplicateRowException;
-import it.hivecampuscompany.hivecampus.logic.exception.EmptyFieldsException;
-import it.hivecampuscompany.hivecampus.logic.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.logic.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
 import it.hivecampuscompany.hivecampus.logic.model.Session;
@@ -29,14 +27,14 @@ public class LoginManager {
         accountDAO = daoFactoryFacade.getAccountDAO();
     }
 
-    public SessionBean searchAccountByCredentials(CredentialsBean credentials) throws AuthenticateException, FailedLoginException, SQLException, ClassNotFoundException, NoSuchAlgorithmException {
+    public SessionBean searchAccountByCredentials(CredentialsBean credentials) throws AuthenticateException, FailedLoginException, SQLException, NoSuchAlgorithmException {
         credentials.setPassword(Objects.requireNonNull(EncryptionPassword.hashPasswordMD5(credentials.getPassword())));
         account = accountDAO.retrieveAccountByCredentials(credentials);
         SessionManager sessionManager = SessionManager.getInstance();
         this.session = sessionManager.createSession(account);
         return new SessionBean(session);
     }
-    public void createAccount(AccountBean accountBean) throws DuplicateRowException, EmptyFieldsException, SQLException, ClassNotFoundException, NoSuchAlgorithmException {
+    public void createAccount(AccountBean accountBean) throws DuplicateRowException, SQLException, NoSuchAlgorithmException {
         accountBean.setPassword(Objects.requireNonNull(EncryptionPassword.hashPasswordMD5(accountBean.getPassword())));
         account = new Account(accountBean);
         accountDAO.saveAccount(account);

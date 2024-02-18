@@ -41,7 +41,7 @@ public class CredentialsBean {
         return password;
     }
 
-    private void validateEmail(String email) throws InvalidEmailException {
+    protected void validateEmail(String email) throws InvalidEmailException {
         try (InputStream input = new FileInputStream("properties/config.properties")) {
             Properties properties = new Properties();
             properties.load(input);
@@ -54,5 +54,9 @@ public class CredentialsBean {
             e.printStackTrace();
             System.exit(3);
         }
+    }
+
+    public void setEmail(String email) throws InvalidEmailException, EmptyFieldsException {
+        this.email = email;
     }
 }

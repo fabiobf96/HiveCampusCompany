@@ -29,7 +29,7 @@ public class DAOFactoryFacade {
         Properties properties = new Properties();
         try (InputStream input = new FileInputStream("properties/config.properties")) {
             properties.load(input);
-            persistenceType = properties.getProperty("PERSISTENCE_CSV");
+            persistenceType = properties.getProperty("PERSISTENCE_MYSQL");
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to load config.properties file", e);
             System.exit(1);
