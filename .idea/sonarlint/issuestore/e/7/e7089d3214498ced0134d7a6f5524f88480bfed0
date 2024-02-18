@@ -1,0 +1,37 @@
+
+X	java:S125"<This block of commented-out lines of code should be removed.(¾Æ’8³ÒëÛ1
+ª
+java:S1130"‡Remove the declaration of thrown exception 'javax.security.auth.login.FailedLoginException', as it cannot be thrown from method's body.(éøÂ‰ıÿÿÿÿ8·ÒëÛ1
+
+java:S1130"nRemove the declaration of thrown exception 'java.sql.SQLException', as it cannot be thrown from method's body.(éøÂ‰ıÿÿÿÿ8·ÒëÛ1
+›
+java:S1130"yRemove the declaration of thrown exception 'java.lang.ClassNotFoundException', as it cannot be thrown from method's body.(éøÂ‰ıÿÿÿÿ8·ÒëÛ1
+c
+java:S1126$"AReplace this if-then-else statement by a single return statement.(º¾û‡øÿÿÿÿ8¸ÒëÛ1
+W	java:S125!"<This block of commented-out lines of code should be removed.(Úà+8¸ÒëÛ1
+»
+java:S1130)"Remove the declaration of thrown exception 'it.hivecampuscompany.hivecampus.logic.exception.EmptyFieldsException', as it cannot be thrown from method's body.(”Š§ 8¸ÒëÛ1
+‹
+java:S1130)"nRemove the declaration of thrown exception 'java.sql.SQLException', as it cannot be thrown from method's body.(”Š§ 8¸ÒëÛ1
+–
+java:S1130)"yRemove the declaration of thrown exception 'java.lang.ClassNotFoundException', as it cannot be thrown from method's body.(”Š§ 8¹ÒëÛ1
+]
+java:S18542"@Remove this useless assignment to local variable "loginManager".(¤±ºÿ8¹ÒëÛ1
+¼
+java:S11301"Remove the declaration of thrown exception 'it.hivecampuscompany.hivecampus.logic.exception.InvalidEmailException', as it cannot be thrown from method's body.(…Ë˜¡8¹ÒëÛ1
+»
+java:S11301"Remove the declaration of thrown exception 'it.hivecampuscompany.hivecampus.logic.exception.EmptyFieldsException', as it cannot be thrown from method's body.(…Ë˜¡8ºÒëÛ1
+¥
+java:S11301"‡Remove the declaration of thrown exception 'javax.security.auth.login.FailedLoginException', as it cannot be thrown from method's body.(…Ë˜¡8ºÒëÛ1
+‹
+java:S11301"nRemove the declaration of thrown exception 'java.sql.SQLException', as it cannot be thrown from method's body.(…Ë˜¡8ºÒëÛ1
+¼
+java:S11301"Remove the declaration of thrown exception 'it.hivecampuscompany.hivecampus.logic.exception.AuthenticateException', as it cannot be thrown from method's body.(…Ë˜¡8ºÒëÛ1
+œ
+java:S11301"Remove the declaration of thrown exception 'java.security.NoSuchAlgorithmException', as it cannot be thrown from method's body.(…Ë˜¡8ºÒëÛ1
+–
+java:S11301"yRemove the declaration of thrown exception 'java.lang.ClassNotFoundException', as it cannot be thrown from method's body.(…Ë˜¡8ºÒëÛ1
+¼
+java:S11301"Remove the declaration of thrown exception 'it.hivecampuscompany.hivecampus.logic.exception.DuplicateRowException', as it cannot be thrown from method's body.(…Ë˜¡8ºÒëÛ1
+N
+java:S14812"1Remove this unused "loginManager" local variable.(¤±ºÿ8»ÒëÛ1
