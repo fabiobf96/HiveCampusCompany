@@ -78,4 +78,7 @@ public class Account implements Serializable {
         return Objects.hash(email);
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

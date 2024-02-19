@@ -19,7 +19,6 @@ public class AccountDAOMySql implements AccountDAO {
     private final Connection connection;
     public AccountDAOMySql(){
         connection = ConnectionManager.getConnection();
-        System.out.println("AccountDAO mysql");
     }
 
     @Override
