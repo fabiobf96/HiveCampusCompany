@@ -70,7 +70,6 @@ public class RoomDAOMySql implements RoomDAO {
                 // Creo un'istanza della classe Room
                 Room room = fillRoom(res);
 
-                room.setAvailable(res.getBoolean("disponibilita"));
                 room.setUniversity(res.getString("universita"));
                 room.setDistance(RoundingFunction.roundingDouble(Float.parseFloat(res.getString("distanza"))));
 
@@ -116,7 +115,7 @@ public class RoomDAOMySql implements RoomDAO {
         room.setTvConnection(resultSet.getBoolean("tv"));
         room.setRoomDescription(resultSet.getString("descrizioneStanza"));
         room.setPrice(resultSet.getInt("prezzo"));
-        room.setAvailability(resultSet.getString("disponibilita"));
+        room.setAvailable(resultSet.getBoolean("disponibilita"));
         room.setAvailability(resultSet.getString("meseDisponibilita"));
 
         // Assumi che Room abbia anche attributi per le informazioni dell'immobile
