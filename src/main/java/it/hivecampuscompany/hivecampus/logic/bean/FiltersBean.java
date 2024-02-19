@@ -5,18 +5,18 @@ import it.hivecampuscompany.hivecampus.logic.exception.EmptyFieldsException;
 
 public class FiltersBean {
     private String university;
-    private String distance;
-    private String maxPrice;
-    private String privateBathroom;
-    private String balcony;
-    private String conditioner;
-    private String tvConnection;
+    private float distance;
+    private int maxPrice;
+    private Boolean privateBathroom;
+    private Boolean balcony;
+    private Boolean conditioner;
+    private Boolean tvConnection;
 
     public FiltersBean(){
         // Default constructor
     }
 
-    public FiltersBean(String university, String distance, String maxPrice, String privateBathroom, String balcony, String conditioner, String tvConnection) {
+    public FiltersBean(String university, Float distance, Integer maxPrice, Boolean privateBathroom, Boolean balcony, Boolean conditioner, Boolean tvConnection) {
         this.university = university;
         this.distance = distance;
         this.maxPrice = maxPrice;
@@ -28,17 +28,40 @@ public class FiltersBean {
 
     public String getUniversity() { return university; }
 
-    public String getDistance() { return distance; }
+    public Float getDistance() { return distance; }
 
-    public String getMaxPrice() { return maxPrice; }
+    public Integer getMaxPrice() { return maxPrice; }
 
-    public String getPrivateBathroom() { return privateBathroom; }
+    public Boolean getPrivateBathroom() { return privateBathroom; }
 
-    public String getBalcony() { return balcony; }
+    public Boolean getBalcony() { return balcony; }
 
-    public String getConditioner() { return conditioner; }
+    public Boolean getConditioner() { return conditioner; }
 
-    public String getTvConnection() { return tvConnection; }
+    public Boolean getTvConnection() { return tvConnection; }
+
+
+    public void setUniversity(String university) throws EmptyFieldsException {
+        if (university.isEmpty()) {
+            throw new EmptyFieldsException("University field is empty. Please insert a valid university name.");
+        }
+        this.university =  university;
+    }
+
+    public void setMaxDistance(Float distance) {
+        this.distance = distance;
+    }
+
+    public void setMaxPrice(Integer maxPrice) {
+        this.maxPrice = maxPrice;
+    }
+
+    public void setFeatures(Boolean privateBathroom, Boolean balcony, Boolean conditioner, Boolean tvConnection) {
+        this.privateBathroom = privateBathroom;
+        this.balcony = balcony;
+        this.conditioner = conditioner;
+        this.tvConnection = tvConnection;
+    }
 
     public String toString() {
         return "University: " + university + "\n" +
@@ -48,27 +71,5 @@ public class FiltersBean {
                 "Balcony: " + balcony + "\n" +
                 "Conditioner: " + conditioner + "\n" +
                 "TV Connection: " + tvConnection;
-    }
-
-    public void setUniversity(String university) throws EmptyFieldsException {
-        if (university.isEmpty()) {
-            throw new EmptyFieldsException("University field is empty. Please insert a valid university name.");
-        }
-        this.university =  university;
-    }
-
-    public void setMaxDistance(String distance) {
-        this.distance = distance;
-    }
-
-    public void setMaxPrice(String maxPrice) {
-        this.maxPrice = maxPrice;
-    }
-
-    public void setFeatures(String privateBathroom, String balcony, String conditioner, String tvConnection) {
-        this.privateBathroom = privateBathroom;
-        this.balcony = balcony;
-        this.conditioner = conditioner;
-        this.tvConnection = tvConnection;
     }
 }
