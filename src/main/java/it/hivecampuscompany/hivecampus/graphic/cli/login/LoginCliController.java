@@ -1,8 +1,7 @@
 package it.hivecampuscompany.hivecampus.graphic.cli.login;
 
-
-
 import it.hivecampuscompany.hivecampus.graphic.cli.ownerhomepage.OwnerHomeCliController;
+import it.hivecampuscompany.hivecampus.graphic.cli.tenanthomepage.TenantHomeCliController;
 import it.hivecampuscompany.hivecampus.logic.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.logic.bean.CredentialsBean;
 import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
@@ -55,13 +54,13 @@ public class LoginCliController {
             view.displayMessage("Effettuato logon con successo per l'utente: " + credentialsBean.getEmail());
             switch (sessionBean.getTypeAccount()){
                 case ("owner")-> new OwnerHomeCliController(sessionBean);
-//                case ("tenant")-> new TenantHomeCliController(sessionBean);
+                case ("tenant")-> new TenantHomeCliController(sessionBean);
                 default -> System.exit(3);
             }
         } catch (EmptyFieldsException | InvalidEmailException | AuthenticateException e) {
             view.displayMessage(e.getMessage());
             handleUserChoice();
-        } catch (SQLException | FailedLoginException | NoSuchAlgorithmException e) {
+        } catch (SQLException | FailedLoginException | NoSuchAlgorithmException | InvalidSessionException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
             view.getUserChoice();
         }

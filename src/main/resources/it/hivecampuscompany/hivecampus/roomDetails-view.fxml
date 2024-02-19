@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<VBox fx:id="vbRoom" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.graphic.javafx.roomsearchpage.RoomDetailsJavaFxController">
+   <children>
+      <BorderPane>
+         <center>
+            <ScrollPane hbarPolicy="NEVER">
+               <content>
+                  <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" style="-fx-border-color: grey; -fx-border-radius: 5;">
+                     <children>
+                        <HBox alignment="CENTER" spacing="20.0">
+                           <children>
+                              <VBox HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label fx:id="lblTitle" text="Label">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="TOP_RIGHT" style="-fx-background-color: pink;">
+                                 <children>
+                                    <HBox spacing="10.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;">
+                                       <children>
+                                          <HBox spacing="5.0">
+                                             <children>
+                                                <Label text="Distance from" />
+                                                <Label fx:id="lblUniversity" text="Label" />
+                                                <Label text="University:" />
+                                             </children>
+                                          </HBox>
+                                          <HBox spacing="5.0">
+                                             <children>
+                                                <Label fx:id="lblDistance" text="Label" />
+                                                <Label text="Km" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="20.0">
+                           <children>
+                              <VBox spacing="15.0">
+                                 <children>
+                                    <Label text="House Images" />
+                                    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-border-color: grey; -fx-border-radius: 5; -fx-background-color: white;">
+                                       <children>
+                                          <ImageView fx:id="imvHouse" fitHeight="172.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                              <VBox spacing="15.0">
+                                 <children>
+                                    <Label text="House Features" />
+                                    <HBox spacing="45.0" style="-fx-border-color: grey; -fx-border-radius: 5; -fx-background-color: white;">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                             <children>
+                                                <Label text="Type:">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="Surface:">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="Number of rooms:">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="Number of bathrooms:">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="Floor:">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="Elevator:" />
+                                                <Label text="Heating:" />
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </VBox>
+                                          <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                             <children>
+                                                <Label fx:id="lblHType" text="Label">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="lblHSurface" text="Label">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="lblNumRooms" text="Label">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="lblNumBathrooms" text="Label">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="lblFloor" text="Label" />
+                                                <Label fx:id="lblElevator" text="Label" />
+                                                <Label fx:id="lblHeating" text="Label" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox spacing="15.0">
+                                 <children>
+                                    <Label text="Planimetry" />
+                                    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-border-color: grey; -fx-border-radius: 5; -fx-background-color: white;">
+                                       <children>
+                                          <ImageView fx:id="imvPlanimetry" fitHeight="172.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="20.0">
+                           <children>
+                              <VBox spacing="15.0">
+                                 <children>
+                                    <VBox spacing="15.0">
+                                       <children>
+                                          <Label text="Contacts" />
+                                          <HBox spacing="20.0" style="-fx-border-color: grey; -fx-border-radius: 5; -fx-background-color: white;">
+                                             <children>
+                                                <VBox spacing="5.0">
+                                                   <children>
+                                                      <Label text="Email:" />
+                                                      <Label text="Telephone:" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox spacing="5.0">
+                                                   <children>
+                                                      <Label fx:id="lblEmail" text="Label" />
+                                                      <Label fx:id="lblTelephone" text="Label" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                              <VBox spacing="15.0">
+                                 <children>
+                                    <Label text="House Description" />
+                                    <TextFlow style="-fx-border-color: grey; -fx-border-radius: 5; -fx-background-color: white;" textAlignment="JUSTIFY">
+                                       <children>
+                                          <Text fx:id="txfHDescription" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding></TextFlow>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="20.0">
+                           <children>
+                              <VBox spacing="15.0">
+                                 <children>
+                                    <Label text="Room Images" />
+                                    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-border-color: grey; -fx-border-radius: 5; -fx-background-color: white;">
+                                       <children>
+                                          <ImageView fx:id="imvRoom" fitHeight="172.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                              <VBox spacing="15.0">
+                                 <children>
+                                    <Label text="Room Features" />
+                                    <HBox spacing="45.0" style="-fx-border-color: grey; -fx-border-radius: 5; -fx-background-color: white;">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                             <children>
+                                                <Label text="Surface:">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="Private Bathroom:">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="Balcony">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="Conditioner:">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label text="TV Connection:">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </VBox>
+                                          <VBox alignment="CENTER_LEFT" spacing="5.0">
+                                             <children>
+                                                <Label fx:id="lblRSurface" text="Label">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="lblBath" text="Label">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="lblBalcony" text="Label">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="lblConditioner" text="Label">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <Label fx:id="lblTV" text="Label" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox spacing="15.0">
+                                 <children>
+                                    <Label text="Room Description" />
+                                    <TextFlow style="-fx-border-color: grey; -fx-border-radius: 5; -fx-background-color: white;" textAlignment="JUSTIFY">
+                                       <children>
+                                          <Text fx:id="txfRDescription" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding></TextFlow>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="50.0">
+                           <children>
+                              <HBox alignment="CENTER" spacing="10.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;">
+                                 <children>
+                                    <Label text="Availability:" />
+                                    <Label fx:id="lblAvailability" text="Label" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                              <Button fx:id="btnRequest" mnemonicParsing="false" onAction="#handleLeaseRequestClick" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: #469508;" text="Lease Request" textFill="WHITE" />
+                           </children>
+                        </HBox>
+                        <VBox spacing="15.0">
+                           <children>
+                              <Label text="House Map" />
+                              <VBox fx:id="vbMap" prefHeight="200.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </VBox>
+               </content>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </ScrollPane>
+         </center>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </BorderPane>
+   </children>
+</VBox>

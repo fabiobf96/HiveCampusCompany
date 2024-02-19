@@ -1,6 +1,6 @@
 package it.hivecampuscompany.hivecampus.logic.model;
 
-import java.time.LocalDate;
+import it.hivecampuscompany.hivecampus.logic.bean.LeaseRequestBean;
 
 public class LeaseRequest {
     private Account account;
@@ -17,6 +17,11 @@ public class LeaseRequest {
         this.account = account;
         this.date = startDate;
         this.typePermanence = duration;
+    }
+
+    public LeaseRequest(LeaseRequestBean leaseRequestBean) {
+        date = leaseRequestBean.getStartPermanence();
+        typePermanence = leaseRequestBean.getTypePermanence();
     }
 
     public Account getAccount() {
