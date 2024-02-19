@@ -13,7 +13,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 
 public class RoomDAOMySql implements RoomDAO {
     private final Connection conn;
@@ -87,7 +90,7 @@ public class RoomDAOMySql implements RoomDAO {
     }
 
     @Override
-    public List<Room> retrieveRoomsByOwner(Owner owner) {
+    public List<Room> retrieveRoomsByOwner(Account owner) {
         List<Room> rooms = new ArrayList<>();
         String query = properties.getProperty("QUERY_ROOM_BY_OWNER");
         try (PreparedStatement stmt = conn.prepareStatement(query)) {

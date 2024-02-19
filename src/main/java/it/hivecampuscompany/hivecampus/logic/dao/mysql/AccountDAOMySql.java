@@ -62,7 +62,7 @@ public class AccountDAOMySql implements AccountDAO {
     }
 
     @Override
-    public AccountBean retrieveAccountDetails(CredentialsBean credentialsBean) {
+    public Account retrieveAccountDetails(String email) {
         return null;
     }
 }

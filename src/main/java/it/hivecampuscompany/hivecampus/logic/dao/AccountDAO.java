@@ -12,5 +12,5 @@ import java.sql.SQLException;
 public interface AccountDAO {
     Account retrieveAccountByCredentials(CredentialsBean credentialsBean) throws AuthenticateException, SQLException, FailedLoginException;
     void saveAccount(Account account) throws DuplicateRowException, SQLException;
-    AccountBean retrieveAccountDetails(CredentialsBean credentialsBean);
+    Account retrieveAccountDetails(String email);
 }

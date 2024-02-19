@@ -63,7 +63,7 @@ public class LoginCliController {
             handleUserChoice();
         } catch (SQLException | FailedLoginException | NoSuchAlgorithmException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            System.exit(1);
+            view.getUserChoice();
         }
     }
 

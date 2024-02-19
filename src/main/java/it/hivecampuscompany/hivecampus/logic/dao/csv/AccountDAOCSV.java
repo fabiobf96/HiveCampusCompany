@@ -73,16 +73,16 @@ public class AccountDAOCSV implements AccountDAO {
     }
 
     @Override
-    public AccountBean retrieveAccountDetails(CredentialsBean credentialsBean) {
+    public Account retrieveAccountDetails(String email) {
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
             String[] nextRecord;
             while ((nextRecord = reader.readNext()) != null) {
                 String storedEmail = nextRecord[AccountAttributesOrder.GET_INDEX_EMAIL].trim();
-                if (credentialsBean.getEmail().equals(storedEmail)) {
+                if (email.equals(storedEmail)) {
                     String storedName = nextRecord[AccountAttributesOrder.GET_INDEX_NAME].trim();
                     String storedSurname = nextRecord[AccountAttributesOrder.GET_INDEX_SURNAME].trim();
                     String storedPhoneNumber = nextRecord[AccountAttributesOrder.GET_INDEX_PHONE_NUMBER].trim();
-                    return new AccountBean(storedEmail, storedName, storedSurname, storedPhoneNumber);
+                    return new Account(storedEmail, null, storedName, storedSurname, null, storedPhoneNumber);
                 }
             }
         } catch (IOException | CsvValidationException e) {
