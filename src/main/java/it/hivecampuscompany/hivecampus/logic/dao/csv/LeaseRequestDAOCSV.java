@@ -52,7 +52,7 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
                 if(room.getIdRoom() == roomId) {
                     int requestId = Integer.parseInt(rentalRequest[0].trim());
                     String tenantEmail = rentalRequest[2].trim();
-                    LocalDate startDate = LocalDate.parse(rentalRequest[3].trim(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                    String startDate = LocalDate.parse(rentalRequest[3].trim(), DateTimeFormatter.ofPattern("dd-MM-yyyy")).toString();
                     String duration = rentalRequest[4].trim();
                     DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
                     Account tenant = daoFactoryFacade.getAccountDAO().retrieveAccountDetails(tenantEmail);

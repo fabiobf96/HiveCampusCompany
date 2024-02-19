@@ -5,11 +5,16 @@ import it.hivecampuscompany.hivecampus.logic.model.Room;
 import java.util.List;
 
 public class PreviewRoomBean {
-    private final Integer idRoom;
-    private final String address;
-    private final String typeRoom;
-    private final Float price;
+
+    private Integer idRoom;
+    private String address;
+    private String typeRoom;
+    private Integer price;
     List<LeaseRequestBean> leaseRequestBeans;
+
+    public PreviewRoomBean() {
+    }
+
     public PreviewRoomBean(Room room){
         idRoom = room.getIdRoom();
         address = room.getStreet() + " " + room.getStreetNumber() + " " + room.getCity();
@@ -29,7 +34,7 @@ public class PreviewRoomBean {
         return typeRoom;
     }
 
-    public Float getPrice() {
+    public Integer getPrice() {
         return price;
     }
 

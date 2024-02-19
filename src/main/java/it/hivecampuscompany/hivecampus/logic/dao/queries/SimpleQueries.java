@@ -69,23 +69,23 @@ public class SimpleQueries {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             int parameterIndex = 1;
             pstmt.setString(parameterIndex++, filtersBean.getUniversity());
-            pstmt.setString(parameterIndex++, filtersBean.getDistance());
-            pstmt.setString(parameterIndex++, filtersBean.getMaxPrice());
+            pstmt.setString(parameterIndex++, String.valueOf(filtersBean.getDistance()));
+            pstmt.setString(parameterIndex++, String.valueOf(filtersBean.getMaxPrice()));
 
             // Set filter values if true
-            if (Boolean.parseBoolean(filtersBean.getPrivateBathroom())) {
+            if (Boolean.parseBoolean(String.valueOf(filtersBean.getPrivateBathroom()))) {
                 pstmt.setString(parameterIndex++, "true");
             }
 
-            if (Boolean.parseBoolean(filtersBean.getBalcony())) {
+            if (Boolean.parseBoolean(String.valueOf(filtersBean.getBalcony()))) {
                 pstmt.setString(parameterIndex++, "true");
             }
 
-            if (Boolean.parseBoolean(filtersBean.getConditioner())) {
+            if (Boolean.parseBoolean(String.valueOf(filtersBean.getConditioner()))) {
                 pstmt.setString(parameterIndex++, "true");
             }
 
-            if (Boolean.parseBoolean(filtersBean.getTvConnection())) {
+            if (Boolean.parseBoolean(String.valueOf(filtersBean.getTvConnection()))) {
                 pstmt.setString(parameterIndex, "true");
             }
 
@@ -107,19 +107,19 @@ public class SimpleQueries {
         """;
 
         // Add dynamic filters if true
-        if (Boolean.parseBoolean(filtersBean.getPrivateBathroom())) {
+        if (Boolean.parseBoolean(String.valueOf(filtersBean.getPrivateBathroom()))) {
             sql += " AND S.bagnoPrivato = ?";
         }
 
-        if (Boolean.parseBoolean(filtersBean.getBalcony())) {
+        if (Boolean.parseBoolean(String.valueOf(filtersBean.getBalcony()))) {
             sql += " AND S.balcone = ?";
         }
 
-        if (Boolean.parseBoolean(filtersBean.getConditioner())) {
+        if (Boolean.parseBoolean(String.valueOf(filtersBean.getConditioner()))) {
             sql += " AND S.condizionatore = ?";
         }
 
-        if (Boolean.parseBoolean(filtersBean.getTvConnection())) {
+        if (Boolean.parseBoolean(String.valueOf(filtersBean.getTvConnection()))) {
             sql += " AND S.tv = ?";
         }
 
