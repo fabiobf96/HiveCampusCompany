@@ -3,19 +3,17 @@ package it.hivecampuscompany.hivecampus.logic.dao.mysql;
 import it.hivecampuscompany.hivecampus.logic.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.logic.control.ConnectionManager;
 import it.hivecampuscompany.hivecampus.logic.dao.RoomDAO;
+import it.hivecampuscompany.hivecampus.logic.dao.queries.SimpleQueries;
+import it.hivecampuscompany.hivecampus.logic.model.Account;
 import it.hivecampuscompany.hivecampus.logic.model.Owner;
 import it.hivecampuscompany.hivecampus.logic.model.Room;
+import it.hivecampuscompany.hivecampus.logic.utility.RoundingFunction;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.sql.*;
+import java.util.*;
 
 public class RoomDAOMySql implements RoomDAO {
     private final Connection conn;
@@ -33,7 +31,60 @@ public class RoomDAOMySql implements RoomDAO {
 
     @Override
     public List<Room> retrieveRoomsByFilters(FiltersBean filtersBean) {
-        return null;
+
+        List<Room> listOfRooms = new ArrayList<>();
+
+        try {
+            String sql = SimpleQueries.buildRoomFiltersQuery(filtersBean);
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, filtersBean.getUniversity());
+            pstmt.setFloat(2, filtersBean.getDistance());
+            pstmt.setInt(3, filtersBean.getMaxPrice());
+
+            ResultSet res = pstmt.executeQuery();
+
+            ////////////////
+            if (!res.first()) { // se res è vuoto, non esistono stanze in affitto nella citta specificata
+                return Collections.emptyList();
+            }
+            /////////////
+
+            // riposizionamento del cursore
+            res.first();
+
+            do {
+                Statement stmt = conn.createStatement();
+                ResultSet res2 = SimpleQueries.selectOwnerByIdHome(stmt, res.getInt("idImmobile"));
+
+                if (!res2.first()) { // se res è vuoto, non esiste un account con l'email specificata
+                    return Collections.emptyList();
+                }
+
+                res2.first();
+
+                //Creo un'istanza della classe Account
+                Account owner = new Account(res2.getString("username"), null,res2.getString("nome"), res2.getString("cognome"), null, res2.getString("telefono"));
+
+                // Creo un'istanza della classe Room
+                Room room = fillRoom(res);
+
+                room.setAvailable(res.getBoolean("disponibilita"));
+                room.setUniversity(res.getString("universita"));
+                room.setDistance(RoundingFunction.roundingDouble(Float.parseFloat(res.getString("distanza"))));
+
+                room.setOwnerAccount(owner);
+
+                listOfRooms.add(room); // Aggiungo l'oggetto Room alla lista
+
+            }while (res.next());
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listOfRooms;
     }
 
     @Override
@@ -64,11 +115,14 @@ public class RoomDAOMySql implements RoomDAO {
         room.setConditioner(resultSet.getBoolean("condizionatore"));
         room.setTvConnection(resultSet.getBoolean("tv"));
         room.setRoomDescription(resultSet.getString("descrizioneStanza"));
-        room.setPrice(resultSet.getFloat("prezzo"));
+        room.setPrice(resultSet.getInt("prezzo"));
         room.setAvailability(resultSet.getString("disponibilita"));
+        room.setAvailability(resultSet.getString("meseDisponibilita"));
 
         // Assumi che Room abbia anche attributi per le informazioni dell'immobile
-        room.setStreet(resultSet.getString("via") + ", " + resultSet.getString("civico") + ", " + resultSet.getString("citta"));
+        room.setStreet(resultSet.getString("via"));
+        room.setStreetNumber(resultSet.getInt("civico"));
+        room.setCity(resultSet.getString("citta"));
         room.setHouseLatitude(resultSet.getFloat("latitudine"));
         room.setHouseLongitude(resultSet.getFloat("longitudine"));
         room.setHouseType(resultSet.getString("tipologia"));

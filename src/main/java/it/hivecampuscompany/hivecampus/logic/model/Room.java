@@ -5,35 +5,35 @@ import java.util.List;
 
 public class Room implements Serializable {
 
-    private int idRoom;
+    private Integer idRoom;
     private String roomType;
-    private int roomSurface;
+    private Integer roomSurface;
     private Boolean privateBathroom;
     private Boolean balcony;
     private Boolean conditioner;
     private Boolean tvConnection;
     private String roomDescription;
-    private float price;
+    private Integer price;
     private String availability;
+    private Boolean isAvailable;
 
-    private int idHome;
+    private Integer idHome;
     private String street;
-    private int streetNumber;
+    private Integer streetNumber;
     private String city;
-    private float houseLatitude;
-    private float houseLongitude;
+    private Float houseLatitude;
+    private Float houseLongitude;
     private String houseType;
-    private int houseSurface;
-    private int numRooms;
-    private int numBathrooms;
-    private int floor;
-    private boolean elevator;
+    private Integer houseSurface;
+    private Integer numRooms;
+    private Integer numBathrooms;
+    private Integer floor;
+    private Boolean elevator;
     private String heating;
     private String houseDescription;
 
-    private String ownerEmail;
     private String university;
-    private float distance;
+    private Float distance;
 
     private Account ownerAccount;
 
@@ -43,11 +43,11 @@ public class Room implements Serializable {
         //Costruttore di default
     }
 
-    public int getIdRoom() {
+    public Integer getIdRoom() {
         return idRoom;
     }
 
-    public void setIdRoom(int idRoom) {
+    public void setIdRoom(Integer idRoom) {
         this.idRoom = idRoom;
     }
 
@@ -59,11 +59,11 @@ public class Room implements Serializable {
         this.roomType = roomType;
     }
 
-    public int getRoomSurface() {
+    public Integer getRoomSurface() {
         return roomSurface;
     }
 
-    public void setRoomSurface(int roomSurface) {
+    public void setRoomSurface(Integer roomSurface) {
         this.roomSurface = roomSurface;
     }
 
@@ -79,7 +79,7 @@ public class Room implements Serializable {
         return balcony;
     }
 
-    public void setBalcony(boolean balcony) {
+    public void setBalcony(Boolean balcony) {
         this.balcony = balcony;
     }
 
@@ -87,7 +87,7 @@ public class Room implements Serializable {
         return conditioner;
     }
 
-    public void setConditioner(boolean conditioner) {
+    public void setConditioner(Boolean conditioner) {
         this.conditioner = conditioner;
     }
 
@@ -95,7 +95,7 @@ public class Room implements Serializable {
         return tvConnection;
     }
 
-    public void setTvConnection(boolean tvConnection) {
+    public void setTvConnection(Boolean tvConnection) {
         this.tvConnection = tvConnection;
     }
 
@@ -107,11 +107,11 @@ public class Room implements Serializable {
         this.roomDescription = roomDescription;
     }
 
-    public float getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -123,11 +123,15 @@ public class Room implements Serializable {
         this.availability = availability;
     }
 
-    public int getIdHome() {
+    public Boolean getAvailable() { return isAvailable; }
+
+    public void setAvailable(Boolean available) { isAvailable = available; }
+
+    public Integer getIdHome() {
         return idHome;
     }
 
-    public void setIdHome(int idHome) {
+    public void setIdHome(Integer idHome) {
         this.idHome = idHome;
     }
 
@@ -139,11 +143,11 @@ public class Room implements Serializable {
         this.street = street;
     }
 
-    public int getStreetNumber() {
+    public Integer getStreetNumber() {
         return streetNumber;
     }
 
-    public void setStreetNumber(int streetNumber) {
+    public void setStreetNumber(Integer streetNumber) {
         this.streetNumber = streetNumber;
     }
 
@@ -155,19 +159,19 @@ public class Room implements Serializable {
         this.city = city;
     }
 
-    public float getHouseLatitude() {
+    public Float getHouseLatitude() {
         return houseLatitude;
     }
 
-    public void setHouseLatitude(float houseLatitude) {
+    public void setHouseLatitude(Float houseLatitude) {
         this.houseLatitude = houseLatitude;
     }
 
-    public float getHouseLongitude() {
+    public Float getHouseLongitude() {
         return houseLongitude;
     }
 
-    public void setHouseLongitude(float houseLongitude) {
+    public void setHouseLongitude(Float houseLongitude) {
         this.houseLongitude = houseLongitude;
     }
 
@@ -179,43 +183,43 @@ public class Room implements Serializable {
         this.houseType = houseType;
     }
 
-    public int getHouseSurface() {
+    public Integer getHouseSurface() {
         return houseSurface;
     }
 
-    public void setHouseSurface(int houseSurface) {
+    public void setHouseSurface(Integer houseSurface) {
         this.houseSurface = houseSurface;
     }
 
-    public int getNumRooms() {
+    public Integer getNumRooms() {
         return numRooms;
     }
 
-    public void setNumRooms(int numRooms) {
+    public void setNumRooms(Integer numRooms) {
         this.numRooms = numRooms;
     }
 
-    public int getNumBathrooms() {
+    public Integer getNumBathrooms() {
         return numBathrooms;
     }
 
-    public void setNumBathrooms(int numBathrooms) {
+    public void setNumBathrooms(Integer numBathrooms) {
         this.numBathrooms = numBathrooms;
     }
 
-    public int getFloor() {
+    public Integer getFloor() {
         return floor;
     }
 
-    public void setFloor(int floor) {
+    public void setFloor(Integer floor) {
         this.floor = floor;
     }
 
-    public boolean getElevator() {
+    public Boolean getElevator() {
         return elevator;
     }
 
-    public void setElevator(boolean elevator) {
+    public void setElevator(Boolean elevator) {
         this.elevator = elevator;
     }
 
@@ -235,25 +239,29 @@ public class Room implements Serializable {
         this.houseDescription = houseDescription;
     }
 
-    public String getOwnerEmail() {
-        return ownerEmail;
+    public String getUniversity() {
+        return university;
     }
 
-    public void setOwnerEmail(String ownerEmail) {
-        this.ownerEmail = ownerEmail;
+    public void setUniversity(String university) {
+        this.university = university;
     }
 
-    public String getUniversity() { return university; }
+    public Float getDistance() {
+        return distance;
+    }
 
-    public void setUniversity(String university) { this.university = university; }
+    public void setDistance(Float distance) {
+        this.distance = distance;
+    }
 
-    public float getDistance() { return distance; }
+    public Account getOwnerAccount() {
+        return ownerAccount;
+    }
 
-    public void setDistance(float distance) { this.distance = distance; }
-
-    public Account getOwnerAccount() { return ownerAccount; }
-
-    public void setOwnerAccount(Account ownerAccount) { this.ownerAccount = ownerAccount; }
+    public void setOwnerAccount(Account ownerAccount) {
+        this.ownerAccount = ownerAccount;
+    }
 
     public List<LeaseRequest> getLeaseRequests() {
         return leaseRequests;

@@ -1,21 +1,17 @@
 package it.hivecampuscompany.hivecampus.logic.bean;
 
-public class RoomBean {
-    private Integer idRoom;
-    private String roomType;
+import it.hivecampuscompany.hivecampus.logic.model.Room;
+
+public class RoomBean extends PreviewRoomBean {
     private Integer roomSurface;
     private Boolean privateBathroom;
     private Boolean balcony;
     private Boolean conditioner;
     private Boolean tvConnection;
     private String roomDescription;
-    private Integer price;
     private String availability;
 
     private Integer idHome;
-    private String street;
-    private Integer streetNumber;
-    private String city;
     private Float houseLatitude;
     private Float houseLongitude;
     private String houseType;
@@ -35,20 +31,29 @@ public class RoomBean {
         //Default constructor
     }
 
-    public Integer getIdRoom() {
-        return idRoom;
-    }
-
-    public void setIdRoom(Integer idRoom) {
-        this.idRoom = idRoom;
-    }
-
-    public String getRoomType() {
-        return roomType;
-    }
-
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
+    public RoomBean(Room room) {
+        super(room);
+        this.roomSurface = room.getRoomSurface();
+        this.privateBathroom = room.getPrivateBathroom();
+        this.balcony = room.getBalcony();
+        this.conditioner = room.getConditioner();
+        this.tvConnection = room.getTvConnection();
+        this.roomDescription = room.getRoomDescription();
+        this.availability = room.getAvailability();
+        this.idHome = room.getIdHome();
+        this.houseLatitude = room.getHouseLatitude();
+        this.houseLongitude = room.getHouseLongitude();
+        this.houseType = room.getHouseType();
+        this.houseSurface = room.getHouseSurface();
+        this.numRooms = room.getNumRooms();
+        this.numBathrooms = room.getNumBathrooms();
+        this.floor = room.getFloor();
+        this.elevator = room.getElevator();
+        this.heating = room.getHeating();
+        this.houseDescription = room.getHouseDescription();
+        this.ownerEmail = room.getOwnerAccount().getEmail();
+        this.university = room.getUniversity();
+        this.distance = room.getDistance();
     }
 
     public Integer getRoomSurface() {
@@ -99,13 +104,6 @@ public class RoomBean {
         this.roomDescription = roomDescription;
     }
 
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
 
     public String getAvailability() {
         return availability;
@@ -123,29 +121,6 @@ public class RoomBean {
         this.idHome = idHome;
     }
 
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public Integer getStreetNumber() {
-        return streetNumber;
-    }
-
-    public void setStreetNumber(Integer streetNumber) {
-        this.streetNumber = streetNumber;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 
     public Float getHouseLatitude() {
         return houseLatitude;
@@ -250,7 +225,7 @@ public class RoomBean {
     public void setDistance(Float distance) {
         this.distance = distance;
     }
-
+    /*
     @Override
     public String toString() {
         return "RoomBean{" +
@@ -283,5 +258,7 @@ public class RoomBean {
                 ", ownerEmail='" + ownerEmail + '\'' +
                 '}';
     }
+
+     */
 
 }
