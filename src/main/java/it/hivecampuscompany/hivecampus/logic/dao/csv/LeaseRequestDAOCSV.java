@@ -15,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -135,32 +134,6 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         }
 
         return false;
-    }
-
-
-    @Override
-    public List<LeaseRequest> retrieveLeaseRequestsByTenant(Account tenant) {
-        List<LeaseRequest> leaseRequests = new ArrayList<>();
-
-        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            String[] nextRecord;
-            while ((nextRecord = reader.readNext()) != null) {
-                String storedEmail = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_EMAIL].trim();
-
-                if (tenant.getEmail().equals(storedEmail)){
-                    int idRequest = Integer.parseInt(nextRecord[LeaseRoomAttributesOrder.GET_INDEX_REQUEST_ID].trim());
-                    String type = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_STAY_TYPE].trim();
-                    String start = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_INIT_START].trim();
-                    String status = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_STATUS].trim();
-
-                    LeaseRequest leaseRequest = new LeaseRequest(idRequest, tenant, start, type, status);
-                    leaseRequests.add(leaseRequest);
-                }
-            } return leaseRequests;
-        } catch (IOException | CsvValidationException e) {
-            LOGGER.log(Level.SEVERE, "Failed to read CSV file", e);
-        }
-        return Collections.emptyList();
     }
 
     private static class LeaseRoomAttributesOrder{

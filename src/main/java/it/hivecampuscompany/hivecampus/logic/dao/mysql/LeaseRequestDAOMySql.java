@@ -99,11 +99,6 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
     }
 
     @Override
-    public List<LeaseRequest> retrieveLeaseRequestsByTenant(Account tenant) {
-        return Collections.emptyList();
-    }
-
-    @Override
     public boolean hasActiveLeaseRequest(Account tenant, Integer idRoom) { ////////
         return false;
     }

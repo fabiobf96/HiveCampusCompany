@@ -1,6 +1,7 @@
 package it.hivecampuscompany.hivecampus.logic.factory;
 
 import it.hivecampuscompany.hivecampus.logic.dao.LeaseDAO;
+import it.hivecampuscompany.hivecampus.logic.dao.csv.LeaseDAOCSV;
 
 public class LeaseDAOFactory implements Factory{
     @Override
