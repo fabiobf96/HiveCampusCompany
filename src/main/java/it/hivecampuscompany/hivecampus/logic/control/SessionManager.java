@@ -6,6 +6,7 @@ import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
 import it.hivecampuscompany.hivecampus.logic.model.Session;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,11 @@ public class SessionManager {
 
     public void closeSession(SessionBean sessionBean){
         sessions.removeIf(session -> session.getId() == sessionBean.getId());
+        try {
+            ConnectionManager.closeConnection();
+        } catch (SQLException e) {
+            System.exit(2);
+        }
     }
 
     public Account getAccount(SessionBean sessionBean) throws IllegalArgumentException{
@@ -56,5 +62,4 @@ public class SessionManager {
         }
         throw new IllegalArgumentException("Invalid Session");
     }
-
 }

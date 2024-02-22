@@ -1,8 +1,6 @@
 package it.hivecampuscompany.hivecampus.logic.factory;
 
 import it.hivecampuscompany.hivecampus.logic.dao.LeaseDAO;
-import it.hivecampuscompany.hivecampus.logic.dao.csv.LeaseDAOCSV;
-import it.hivecampuscompany.hivecampus.logic.dao.mysql.LeaseDAOMySql;
 
 public class LeaseDAOFactory implements Factory{
     @Override
@@ -17,7 +15,7 @@ public class LeaseDAOFactory implements Factory{
         return new LeaseDAOCSV();
     }
     public LeaseDAO createLeaseDAOMySql(){
-        return new LeaseDAOMySql();
+        return new LeaseDAOCSV();
     }
 
 }
