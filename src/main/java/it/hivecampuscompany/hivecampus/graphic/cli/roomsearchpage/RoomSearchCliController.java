@@ -1,6 +1,5 @@
 package it.hivecampuscompany.hivecampus.graphic.cli.roomsearchpage;
 
-
 import it.hivecampuscompany.hivecampus.graphic.cli.tenanthomepage.TenantHomeCliController;
 import it.hivecampuscompany.hivecampus.logic.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.logic.bean.RoomBean;
@@ -10,6 +9,8 @@ import it.hivecampuscompany.hivecampus.logic.exception.EmptyListException;
 import it.hivecampuscompany.hivecampus.logic.exception.InvalidSessionException;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RoomSearchCliController {
 
@@ -17,8 +18,9 @@ public class RoomSearchCliController {
     private final RoomSearchCliView view;
     private final RoomLeaseRequestManager manager;
 
+    private static final Logger LOGGER = Logger.getLogger(RoomSearchCliController.class.getName());
+
     public RoomSearchCliController(SessionBean sessionBean) throws InvalidSessionException {
-        //validateSessionBean(sessionBean);
         this.sessionBean = sessionBean;
         this.view = new RoomSearchCliView();
         this.manager = new RoomLeaseRequestManager(sessionBean);
@@ -44,10 +46,6 @@ public class RoomSearchCliController {
 
             FiltersBean filtersBean = new FiltersBean(university, maxDistance, maxPrice, privateBathroom, balcony, conditioner, tvConnection);
 
-            //filtersBean print to check if the values are correct
-            System.out.println(filtersBean);
-
-
             try {
                 List<RoomBean> roomBeans = manager.searchRoomsByFilters(sessionBean, filtersBean);
                 if (roomBeans == null || roomBeans.isEmpty()) {
@@ -65,7 +63,7 @@ public class RoomSearchCliController {
                 }
 
             } catch (InvalidSessionException | EmptyListException e) {
-                throw new RuntimeException(e);
+                Logger.getLogger(RoomSearchCliController.class.getName()).log(Level.SEVERE, e.getMessage());
             }
 
             choice = view.getUserInput("Vuoi effettuare una nuova ricerca? (si/no): ");
@@ -77,7 +75,7 @@ public class RoomSearchCliController {
                 TenantHomeCliController tenantController = new TenantHomeCliController(sessionBean);
                 tenantController.handleUserChoice();
             } catch (InvalidSessionException e) {
-                throw new RuntimeException(e);
+                Logger.getLogger(RoomSearchCliController.class.getName()).log(Level.SEVERE, e.getMessage());
             }
         } else {
             view.displayMessage("Scelta non valida");

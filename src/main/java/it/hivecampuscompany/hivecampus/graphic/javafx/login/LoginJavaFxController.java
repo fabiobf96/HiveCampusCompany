@@ -1,7 +1,5 @@
 package it.hivecampuscompany.hivecampus.graphic.javafx.login;
 
-import it.hivecampuscompany.hivecampus.graphic.javafx.ownerhomepage.OwnerHomeJavaFxController;
-import it.hivecampuscompany.hivecampus.graphic.javafx.ownerhomepage.OwnerHomeJavaFxGUI;
 import it.hivecampuscompany.hivecampus.graphic.javafx.signup.SignUpJavaFxGUI;
 import it.hivecampuscompany.hivecampus.graphic.javafx.tenanthomepage.TenantHomeJavaFxController;
 import it.hivecampuscompany.hivecampus.graphic.javafx.tenanthomepage.TenantHomeJavaFxGUI;

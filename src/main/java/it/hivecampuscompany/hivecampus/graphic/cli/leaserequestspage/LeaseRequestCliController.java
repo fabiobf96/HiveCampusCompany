@@ -4,7 +4,6 @@ import it.hivecampuscompany.hivecampus.logic.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.logic.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.logic.control.RoomLeaseRequestManager;
-import it.hivecampuscompany.hivecampus.logic.exception.EmptyListException;
 import it.hivecampuscompany.hivecampus.logic.exception.InvalidSessionException;
 
 import java.util.Arrays;

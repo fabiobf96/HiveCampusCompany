@@ -3,7 +3,6 @@ package it.hivecampuscompany.hivecampus.logic.dao.mysql;
 import it.hivecampuscompany.hivecampus.logic.control.ConnectionManager;
 import it.hivecampuscompany.hivecampus.logic.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.logic.dao.LeaseRequestDAO;
-import it.hivecampuscompany.hivecampus.logic.dao.csv.AccountDAOCSV;
 import it.hivecampuscompany.hivecampus.logic.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
 import it.hivecampuscompany.hivecampus.logic.model.LeaseRequest;
@@ -17,7 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -27,7 +25,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
     private final Connection conn;
     private final Properties properties;
     private static final String LEASE_STATUS = "statoRichiesta";
-    private static final Logger LOGGER = Logger.getLogger(AccountDAOCSV.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LeaseRequestDAOMySql.class.getName());
 
 
     public LeaseRequestDAOMySql(){
@@ -50,7 +48,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
             stmt.setString(4, leaseRequest.getTypePermanence());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Logger.getLogger(LeaseRequestDAOMySql.class.getName()).log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -62,7 +60,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
             stmt.setString(2, updatedLeaseRequest.getTypePermanence());
 
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load MySql properties", e);
+            LOGGER.log(Level.SEVERE, e.getMessage());
             System.exit(1);
         }
     }
@@ -81,7 +79,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Logger.getLogger(LeaseRequestDAOMySql.class.getName()).log(Level.SEVERE, "Failed to load MySql properties", e);
         }
         room.setLeaseRequests(leaseRequests);
     }
