@@ -15,6 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RoomDetailsJavaFxController {
 
@@ -83,6 +85,7 @@ public class RoomDetailsJavaFxController {
 
     @FXML
     private Label lblAvailability;
+    private static final Logger LOGGER = Logger.getLogger(RoomDetailsJavaFxController.class.getName());
 
     public RoomDetailsJavaFxController(){
         // Default constructor
@@ -103,7 +106,7 @@ public class RoomDetailsJavaFxController {
         lblFloor.setText(String.valueOf(roomBean.getFloor()));
         lblElevator.setText(String.valueOf(roomBean.getElevator()));
         lblHeating.setText(roomBean.getHeating());
-        txfHDescription.setText(formatText(roomBean.getHouseDescription(), 50));
+        txfHDescription.setText(formatText(roomBean.getHouseDescription()));
         lblEmail.setText(accountBean.getEmail());
         lblTelephone.setText(accountBean.getPhoneNumber());
         lblRSurface.setText(String.valueOf(roomBean.getRoomSurface()));
@@ -111,11 +114,11 @@ public class RoomDetailsJavaFxController {
         lblBalcony.setText(String.valueOf(roomBean.getBalcony()));
         lblConditioner.setText(String.valueOf(roomBean.getConditioner()));
         lblTV.setText(String.valueOf(roomBean.getTvConnection()));
-        txfRDescription.setText(formatText(roomBean.getRoomDescription(), 50));
+        txfRDescription.setText(formatText(roomBean.getRoomDescription()));
         lblAvailability.setText(roomBean.getAvailability());
     }
 
-    private String formatText(String text, int charactersPerLine) {
+    private String formatText(String text) {
         StringBuilder formattedText = new StringBuilder();
         StringBuilder currentLine = new StringBuilder();
         int charCount = 0;
@@ -124,7 +127,7 @@ public class RoomDetailsJavaFxController {
             currentLine.append(c);
             charCount++;
 
-            if (charCount >= charactersPerLine && (c == ' ' || c == '.' || c == ':')) {
+            if (charCount >= 50 && (c == ' ' || c == '.' || c == ':')) {
                 formattedText.append(currentLine).append("\n");
                 currentLine.setLength(0);
                 charCount = 0;
@@ -156,7 +159,8 @@ public class RoomDetailsJavaFxController {
             popUpStage.showAndWait();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            System.exit(2);
         }
 
     }

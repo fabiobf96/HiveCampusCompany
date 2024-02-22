@@ -36,13 +36,13 @@ public class SessionManager {
         return session;
     }
 
-    public boolean isValid(SessionBean sessionBean){
+    public boolean isInvalid(SessionBean sessionBean){
         for (Session session: sessions){
             if(session.getId() == sessionBean.getId()) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public void closeSession(SessionBean sessionBean){

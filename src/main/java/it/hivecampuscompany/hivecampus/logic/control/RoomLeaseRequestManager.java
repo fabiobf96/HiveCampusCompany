@@ -77,7 +77,7 @@ public class RoomLeaseRequestManager {
     }
 
     private void verifySessionBean(SessionBean sessionBean) throws InvalidSessionException {
-        if(!sessionManager.isValid(sessionBean)){
+        if(sessionManager.isInvalid(sessionBean)){
             throw new InvalidSessionException();
         }
     }
@@ -87,7 +87,4 @@ public class RoomLeaseRequestManager {
         return leaseRequestDAO.hasActiveLeaseRequest(tenant, idRoom);
     }
 
-    public String getRoomPath(String typeRoom) {
-        return roomDAO.getRoomPath(typeRoom);
-    }
 }

@@ -146,7 +146,7 @@ public class LeaseManager {
     }
 
     private void verifySessionBean(SessionBean sessionBean) throws InvalidSessionException {
-        if(!sessionManager.isValid(sessionBean)){
+        if(sessionManager.isInvalid(sessionBean)){
             throw new InvalidSessionException();
         }
     }

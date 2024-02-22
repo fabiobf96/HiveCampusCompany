@@ -1,8 +1,5 @@
 package it.hivecampuscompany.hivecampus.logic.bean;
 
-
-import it.hivecampuscompany.hivecampus.logic.exception.EmptyFieldsException;
-
 public class FiltersBean {
     private String university;
     private float distance;
@@ -39,29 +36,6 @@ public class FiltersBean {
     public Boolean getConditioner() { return conditioner; }
 
     public Boolean getTvConnection() { return tvConnection; }
-
-
-    public void setUniversity(String university) throws EmptyFieldsException {
-        if (university.isEmpty()) {
-            throw new EmptyFieldsException("University field is empty. Please insert a valid university name.");
-        }
-        this.university =  university;
-    }
-
-    public void setMaxDistance(Float distance) {
-        this.distance = distance;
-    }
-
-    public void setMaxPrice(Integer maxPrice) {
-        this.maxPrice = maxPrice;
-    }
-
-    public void setFeatures(Boolean privateBathroom, Boolean balcony, Boolean conditioner, Boolean tvConnection) {
-        this.privateBathroom = privateBathroom;
-        this.balcony = balcony;
-        this.conditioner = conditioner;
-        this.tvConnection = tvConnection;
-    }
 
     public String toString() {
         return "University: " + university + "\n" +

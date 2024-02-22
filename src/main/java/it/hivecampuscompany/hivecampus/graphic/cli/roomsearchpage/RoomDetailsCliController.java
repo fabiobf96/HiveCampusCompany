@@ -7,7 +7,7 @@ import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.logic.control.RoomLeaseRequestManager;
 import it.hivecampuscompany.hivecampus.logic.exception.InvalidSessionException;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RoomDetailsCliController {
@@ -55,56 +55,55 @@ public class RoomDetailsCliController {
         }
     }
 
-
     private void showRoomDetails(RoomBean roomBean, AccountBean accountBean) {
+        List<String> houseFeatures = buildHouseFeaturesList(roomBean);
+        List<String> roomFeatures = buildRoomFeaturesList(roomBean);
+        List<String> ownerDetails = buildOwnerDetailsList(accountBean);
 
-        List<String> houseFeatures = new ArrayList<>();
-        List<String> roomFeatures = new ArrayList<>();
-        List<String> ownerDetails = new ArrayList<>();
-
-        String title = "Stanza " + roomBean.getTypeRoom() + " - " + roomBean.getAddress() + " - € " + roomBean.getPrice() + "/mese";
-        String distanceFromUniversity = "Distanza dall'università" + roomBean.getUniversity() + ": " + roomBean.getDistance() + " km";
+        String title = buildTitle(roomBean);
         String availability = "Disponibilità: " + roomBean.getAvailability();
-
-        String houseType = "Tipo casa: " + roomBean.getHouseType();
-        String houseSurface = "Superficie casa: " + roomBean.getHouseSurface() + " mq";
-        String numRooms = "Numero stanze: " + roomBean.getNumRooms();
-        String numBathrooms = "Numero bagni: " + roomBean.getNumBathrooms();
-        String floor = "Piano: " + roomBean.getFloor();
-        String elevator = "Ascensore: " + roomBean.getElevator();
-        String heating = "Riscaldamento: " + roomBean.getHeating();
-        String houseDescription = "Descrizione casa: " + roomBean.getHouseDescription();
-
-        String roomSurface = "Superficie: " + roomBean.getRoomSurface() + " mq";
-        String privateBath = "Bagno privato: " + roomBean.getPrivateBathroom();
-        String balcony = "Balcone: " + roomBean.getBalcony();
-        String conditioner = "Aria condizionata: " + roomBean.getConditioner();
-        String tv = "Allaccio TV: " + roomBean.getTvConnection();
-        String roomDescription = "Descrizione stanza: " + roomBean.getRoomDescription();
-
-        String ownerEmail = "Email: " + accountBean.getEmail();
-        String ownerTelephone = "Telefono: " + accountBean.getPhoneNumber();
-
-        houseFeatures.add(houseType);
-        houseFeatures.add(houseSurface);
-        houseFeatures.add(numRooms);
-        houseFeatures.add(numBathrooms);
-        houseFeatures.add(floor);
-        houseFeatures.add(elevator);
-        houseFeatures.add(heating);
-        houseFeatures.add(houseDescription);
-
-        roomFeatures.add(roomSurface);
-        roomFeatures.add(privateBath);
-        roomFeatures.add(balcony);
-        roomFeatures.add(conditioner);
-        roomFeatures.add(tv);
-        roomFeatures.add(roomDescription);
-
-        ownerDetails.add(ownerEmail);
-        ownerDetails.add(ownerTelephone);
+        String distanceFromUniversity = buildDistanceFromUniversity(roomBean);
 
         view.displayRoomDetails(title, houseFeatures, roomFeatures, ownerDetails, availability, distanceFromUniversity);
+    }
+
+    private List<String> buildHouseFeaturesList(RoomBean roomBean) {
+        return Arrays.asList(
+                "Tipo casa: " + roomBean.getHouseType(),
+                "Superficie casa: " + roomBean.getHouseSurface() + " mq",
+                "Numero stanze: " + roomBean.getNumRooms(),
+                "Numero bagni: " + roomBean.getNumBathrooms(),
+                "Piano: " + roomBean.getFloor(),
+                "Ascensore: " + roomBean.getElevator(),
+                "Riscaldamento: " + roomBean.getHeating(),
+                "Descrizione casa: " + roomBean.getHouseDescription()
+        );
+    }
+
+    private List<String> buildRoomFeaturesList(RoomBean roomBean) {
+        return Arrays.asList(
+                "Superficie: " + roomBean.getRoomSurface() + " mq",
+                "Bagno privato: " + roomBean.getPrivateBathroom(),
+                "Balcone: " + roomBean.getBalcony(),
+                "Aria condizionata: " + roomBean.getConditioner(),
+                "Allaccio TV: " + roomBean.getTvConnection(),
+                "Descrizione stanza: " + roomBean.getRoomDescription()
+        );
+    }
+
+    private List<String> buildOwnerDetailsList(AccountBean accountBean) {
+        return Arrays.asList(
+                "Email: " + accountBean.getEmail(),
+                "Telefono: " + accountBean.getPhoneNumber()
+        );
+    }
+
+    private String buildTitle(RoomBean roomBean) {
+        return "Stanza " + roomBean.getTypeRoom() + " - " + roomBean.getAddress() + " - € " + roomBean.getPrice() + "/mese";
+    }
+
+    private String buildDistanceFromUniversity(RoomBean roomBean) {
+        return "Distanza dall'università " + roomBean.getUniversity() + ": " + roomBean.getDistance() + " km";
     }
 
     public Integer getValidIntegerInput(String message) {

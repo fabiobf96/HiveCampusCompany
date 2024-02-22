@@ -10,18 +10,16 @@ public class PreviewRoomBean {
     private String address;
     private String typeRoom;
     private Integer price;
-    private Boolean available;
     List<LeaseRequestBean> leaseRequestBeans;
 
     public PreviewRoomBean() {
     }
 
-    public PreviewRoomBean(Room room){
+    public PreviewRoomBean(Room room) {
         idRoom = room.getIdRoom();
         address = room.getStreet() + " " + room.getStreetNumber() + " " + room.getCity();
         typeRoom = room.getRoomType();
         price = room.getPrice();
-        available = room.getAvailable();
     }
 
     public Integer getIdRoom() {
@@ -42,9 +40,9 @@ public class PreviewRoomBean {
 
     @Override
     public String toString() {
-        String f50  = "%-50s";
-        String f20  = "%-20s";
-        String f10  = "%-10d";
+        String f50 = "%-50s";
+        String f20 = "%-20s";
+        String f10 = "%-10d";
 
         StringBuilder sb = new StringBuilder();
 
@@ -72,15 +70,7 @@ public class PreviewRoomBean {
         this.leaseRequestBeans = leaseRequestBeans;
     }
 
-    public List<LeaseRequestBean> getLeaseRequestBeans(){
+    public List<LeaseRequestBean> getLeaseRequestBeans() {
         return leaseRequestBeans;
-    }
-
-    public Boolean getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(Boolean available) {
-        this.available = available;
     }
 }
