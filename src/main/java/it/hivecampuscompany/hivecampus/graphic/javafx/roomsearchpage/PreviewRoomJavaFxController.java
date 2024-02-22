@@ -4,24 +4,15 @@ import it.hivecampuscompany.hivecampus.logic.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.logic.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.logic.control.RoomLeaseRequestManager;
-import it.hivecampuscompany.hivecampus.logic.decorator.RoomBeanDecorator;
-import it.hivecampuscompany.hivecampus.logic.decorator.RoomImageDecorator;
-import it.hivecampuscompany.hivecampus.logic.model.Room;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,9 +51,6 @@ public class PreviewRoomJavaFxController {
     @FXML
     private Label lblDistance;
 
-    @FXML
-    private ImageView imgRoom;
-
     public PreviewRoomJavaFxController() {
         // Default constructor
     }
@@ -81,43 +69,9 @@ public class PreviewRoomJavaFxController {
         lblAvailability.setText(roomBean.getAvailability());
         lblUniversity.setText(roomBean.getUniversity());
         lblDistance.setText(String.valueOf(roomBean.getDistance()));
-        //setRoomImage(((RoomImageDecorator) roomBean).getRoomImage());
 
     }
 
-    private RoomBean decoratedRoom(RoomBean roomBean){
-
-        String path = roomLeaseRequestManager.getRoomPath(roomBean.getTypeRoom());
-        byte[] image = loadImage(path);
-
-        if (image.length == 0) {
-            return new RoomImageDecorator(roomBean, image);
-        }
-        return roomBean;
-    }
-
-    private byte[] loadImage(String imagePath) {
-        try {
-            // Carica l'immagine dal percorso specificato e converte in array di byte
-            Path path = Paths.get(Objects.requireNonNull(getClass().getResource(imagePath)).toURI());
-            return Files.readAllBytes(path);
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error loading image", e);
-            return new byte[0];
-        }
-    }
-
-    private void setRoomImage(byte[] imageBytes) {
-        try {
-            // Converti l'array di byte dell'immagine in un oggetto Image
-            javafx.scene.image.Image image = new javafx.scene.image.Image(new java.io.ByteArrayInputStream(imageBytes));
-
-            // Imposta l'immagine nella ImageView
-            imgRoom.setImage(image);
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error setting room image", e);
-        }
-    }
 
     @FXML
     public void handlePreviewRoomClick() {

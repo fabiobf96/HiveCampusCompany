@@ -9,7 +9,6 @@ import it.hivecampuscompany.hivecampus.logic.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
 import it.hivecampuscompany.hivecampus.logic.model.LeaseRequest;
 import it.hivecampuscompany.hivecampus.logic.model.Room;
-import it.hivecampuscompany.hivecampus.logic.model.Tenant;
 
 import java.util.ArrayList;
 import java.util.List;

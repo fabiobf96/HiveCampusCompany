@@ -97,7 +97,7 @@ public class LoginJavaFxController {
             }
         } catch (Exception e) {
             showErrorAlert("Error loading homepage window.");
-            throw new RuntimeException(e);
+            System.exit(1);
         }
     }
 
