@@ -74,8 +74,5 @@ public class DAOFactoryFacade {
         }
         return roomDAO;
     }
-    public static void main(String[] args){
-        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
-        daoFactoryFacade.getAccountDAO();
-    }
+
 }

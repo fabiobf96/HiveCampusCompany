@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 public class RoomDAOMySql implements RoomDAO {
     private final Connection conn;
     private final Properties properties;
-    private final Properties imageProperties;
 
     private static final Logger LOGGER = Logger.getLogger(RoomDAOMySql.class.getName());
 
@@ -34,12 +33,7 @@ public class RoomDAOMySql implements RoomDAO {
         } catch (IOException e) {
             throw new IllegalArgumentException("Error loading database properties.", e);
         }
-        imageProperties = new Properties();
-        try (InputStream input = new FileInputStream("properties/config.properties")) {
-            imageProperties.load(input);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Error loading image properties.", e);
-        }
+
     }
 
     @Override
@@ -93,7 +87,7 @@ public class RoomDAOMySql implements RoomDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Logger.getLogger(LeaseRequestDAOMySql.class.getName()).log(Level.SEVERE, e.getMessage());
         }
 
         return listOfRooms;
@@ -115,19 +109,6 @@ public class RoomDAOMySql implements RoomDAO {
             System.exit(1);
         }
         return rooms;
-    }
-
-    @Override
-    public String getRoomPath(String typeRoom) {
-        try {
-            if (typeRoom.equals("singola")) {
-                return imageProperties.getProperty("SINGLE_ROOM");
-            }
-            else return imageProperties.getProperty("DOUBLE_ROOM");
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
