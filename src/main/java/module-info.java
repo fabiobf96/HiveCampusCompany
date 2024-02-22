@@ -12,6 +12,7 @@ module it.hivecampuscompany.hivecampus {
     opens it.hivecampuscompany.hivecampus.graphic.javafx.ownerhomepage to javafx.fxml;
     opens it.hivecampuscompany.hivecampus.graphic.javafx.tenanthomepage to javafx.fxml;
     opens it.hivecampuscompany.hivecampus.graphic.javafx.roomsearchpage to javafx.fxml;
+    opens it.hivecampuscompany.hivecampus.graphic.javafx.leaserequestspage to javafx.fxml;
 
     exports it.hivecampuscompany.hivecampus.graphic.javafx.roomsearchpage;
     exports it.hivecampuscompany.hivecampus.graphic.javafx.leaserequestspage;

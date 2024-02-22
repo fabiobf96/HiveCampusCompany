@@ -84,12 +84,12 @@ public class LoginJavaFxController {
         try {
             switch (sessionBean.getTypeAccount()){
                 case ("owner"):
-                    // Create a new instance of OwnerHomeJavaFxController and pass the sessionBean
+                    System.out.println("Owner homepage.");
                     break;
 
                 case ("tenant"):
                     TenantHomeJavaFxController tenantController = new TenantHomeJavaFxController();
-                    new TenantHomeJavaFxGUI().startWithController(stage, tenantController);
+                    new TenantHomeJavaFxGUI().startWithTenantController(stage, tenantController);
                     tenantController.initialize(sessionBean);
                     break;
 

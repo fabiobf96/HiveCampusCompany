@@ -32,7 +32,7 @@ public class TenantHomeJavaFxGUI extends Application {
      * @throws IOException if an error occurs during loading or initializing the GUI.
      */
 
-    public void startWithController(Stage stage, TenantHomeJavaFxController controller) throws IllegalArgumentException, IOException {
+    public void startWithTenantController(Stage stage, TenantHomeJavaFxController controller) throws IllegalArgumentException, IOException {
         if (controller == null) {
             throw new IllegalArgumentException("Controller cannot be null");
         }

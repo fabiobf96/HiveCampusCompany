@@ -1,6 +1,5 @@
 package it.hivecampuscompany.hivecampus.graphic.javafx.tenanthomepage;
 
-import it.hivecampuscompany.hivecampus.graphic.javafx.leaserequestspage.LeaseRequestJavaFxController;
 import it.hivecampuscompany.hivecampus.graphic.javafx.login.LoginJavaFxGUI;
 import it.hivecampuscompany.hivecampus.graphic.javafx.roomsearchpage.RoomSearchJavaFxController;
 import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;

@@ -11,9 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 
 public class RoomSearchJavaFxController {
+
+    private static final Logger logger = Logger.getLogger(RoomSearchJavaFxController.class.getName());
 
     private RoomLeaseRequestManager roomLeaseRequestManager;
     private SessionBean sessionBean = new SessionBean();
@@ -97,7 +100,8 @@ public class RoomSearchJavaFxController {
             }
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.severe("Error while searching rooms: " + e.getMessage());
+            showAlert("Error while searching rooms.");
         }
     }
 

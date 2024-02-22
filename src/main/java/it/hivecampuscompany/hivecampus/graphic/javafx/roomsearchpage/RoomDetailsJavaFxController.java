@@ -1,6 +1,5 @@
 package it.hivecampuscompany.hivecampus.graphic.javafx.roomsearchpage;
 
-import it.hivecampuscompany.hivecampus.graphic.javafx.leaserequestspage.LeaseRequestJavaFxController;
 import it.hivecampuscompany.hivecampus.logic.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.logic.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
@@ -146,9 +145,6 @@ public class RoomDetailsJavaFxController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/leaseRequestForm-view.fxml"));
             Parent root = loader.load();
 
-            LeaseRequestJavaFxController leaseRequestJavaFxController = loader.getController();
-            leaseRequestJavaFxController.initialize(sessionBean, manager, roomBean);
-
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
             popUpStage.setTitle("Lease Request Form");
@@ -162,6 +158,5 @@ public class RoomDetailsJavaFxController {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             System.exit(2);
         }
-
     }
 }
