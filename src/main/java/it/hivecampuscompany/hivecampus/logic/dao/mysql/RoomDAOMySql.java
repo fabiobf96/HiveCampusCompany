@@ -16,11 +16,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RoomDAOMySql implements RoomDAO {
     private final Connection conn;
     private final Properties properties;
     private final Properties imageProperties;
+
+    private static final Logger LOGGER = Logger.getLogger(RoomDAOMySql.class.getName());
 
     public RoomDAOMySql() {
         conn = ConnectionManager.getConnection();
@@ -107,7 +111,8 @@ public class RoomDAOMySql implements RoomDAO {
                 rooms.add(fillRoom(resultSet));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            System.exit(1);
         }
         return rooms;
     }
@@ -122,6 +127,19 @@ public class RoomDAOMySql implements RoomDAO {
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateAvailability(Room room) {
+        String query = properties.getProperty("QUERY_UPDATE_AVAILABILITY");
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setBoolean(1, room.getAvailable());
+            stmt.setInt(2, room.getIdRoom());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            System.exit(1);
         }
     }
 

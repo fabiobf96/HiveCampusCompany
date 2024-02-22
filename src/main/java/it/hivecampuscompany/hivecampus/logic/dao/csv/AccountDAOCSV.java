@@ -3,7 +3,6 @@ package it.hivecampuscompany.hivecampus.logic.dao.csv;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
-import it.hivecampuscompany.hivecampus.logic.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.logic.bean.CredentialsBean;
 import it.hivecampuscompany.hivecampus.logic.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.logic.exception.AuthenticateException;

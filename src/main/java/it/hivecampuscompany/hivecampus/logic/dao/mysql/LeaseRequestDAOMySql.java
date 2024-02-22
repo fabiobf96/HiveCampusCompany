@@ -3,11 +3,11 @@ package it.hivecampuscompany.hivecampus.logic.dao.mysql;
 import it.hivecampuscompany.hivecampus.logic.control.ConnectionManager;
 import it.hivecampuscompany.hivecampus.logic.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.logic.dao.LeaseRequestDAO;
+import it.hivecampuscompany.hivecampus.logic.dao.csv.AccountDAOCSV;
 import it.hivecampuscompany.hivecampus.logic.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
 import it.hivecampuscompany.hivecampus.logic.model.LeaseRequest;
 import it.hivecampuscompany.hivecampus.logic.model.Room;
-import it.hivecampuscompany.hivecampus.logic.model.Tenant;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,12 +17,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LeaseRequestDAOMySql implements LeaseRequestDAO {
     private final Connection conn;
     private final Properties properties;
+    private static final String LEASE_STATUS = "statoRichiesta";
+    private static final Logger LOGGER = Logger.getLogger(AccountDAOCSV.class.getName());
+
+
     public LeaseRequestDAOMySql(){
         conn = ConnectionManager.getConnection();
         properties = new Properties();
@@ -48,14 +55,30 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
     }
 
     @Override
-    public void retrieveLeaseRequestsByRoom(Room room) {
+    public void updateLeaseRequest(LeaseRequest updatedLeaseRequest) {
+        String query = properties.getProperty("UPDATE_LEASE_REQUEST");
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, updatedLeaseRequest.getRoom().getIdRoom());
+            stmt.setString(2, updatedLeaseRequest.getTypePermanence());
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load MySql properties", e);
+            System.exit(1);
+        }
+    }
+
+    @Override
+    public void retrieveLeaseRequestsByRoom(Room room){
         List<LeaseRequest> leaseRequests = new ArrayList<>();
         String query = properties.getProperty("QUERY_LEASE_ROOM");
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, room.getIdRoom());
             ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
-                leaseRequests.add(fillLeaseRequest(resultSet));
+                if (!resultSet.getString(LEASE_STATUS).equals("rifiutato")) {
+                    leaseRequests.add(fillLeaseRequest(resultSet));
+                }
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -71,12 +94,13 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
         leaseRequest.setAccount(accountDAO.retrieveAccountDetails(resultSet.getString("affittuario")));
         leaseRequest.setStartPermanence(resultSet.getDate("inizioPermanenza").toString());
         leaseRequest.setTypePermanence(resultSet.getString("tipoPermanenza"));
+        leaseRequest.setStatusRequest(resultSet.getString(LEASE_STATUS));
         return leaseRequest;
     }
 
     @Override
     public List<LeaseRequest> retrieveLeaseRequestsByTenant(Account tenant) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

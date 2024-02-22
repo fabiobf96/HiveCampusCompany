@@ -1,8 +1,5 @@
 package it.hivecampuscompany.hivecampus.logic.dao.queries;
 
-
-
-import it.hivecampuscompany.hivecampus.logic.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
 
 import java.sql.Connection;

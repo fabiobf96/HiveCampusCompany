@@ -81,13 +81,37 @@ public class AccountBean extends CredentialsBean{
 
     @Override
     public String toString() {
-        return "AccountBean{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", typeAccount='" + typeAccount + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        String f20 = "%-20s";
+        String f15 = "%-15s";
+        String f30 = "%-30s";
+
+        StringBuilder sb = new StringBuilder();
+
+        if (name != null) {
+            sb.append(" ");
+            sb.append(String.format(f20, name));
+        }
+
+        if (surname != null) {
+            sb.append(" | ");
+            sb.append(String.format(f20, surname));
+        }
+
+        if (typeAccount != null) {
+            sb.append(" | ");
+            sb.append(String.format(f20, typeAccount));
+        }
+
+        if (phoneNumber != null) {
+            sb.append(" | ");
+            sb.append(String.format(f15, phoneNumber));
+        }
+
+        if (email != null) {
+            sb.append(" | ");
+            sb.append(String.format(f30, email));
+        }
+        sb.append(" |");
+        return sb.toString();
     }
 }

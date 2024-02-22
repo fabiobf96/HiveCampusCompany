@@ -17,7 +17,6 @@ public class LeaseRequestBean {
         id = leaseRequest.getId();
         typePermanence = leaseRequest.getTypePermanence();
         startPermanence = leaseRequest.getStartPermanence();
-        //roomBean = new RoomBean(leaseRequest.getRoom());
         tenant = new AccountBean(leaseRequest.getAccount());
         statusRequest = leaseRequest.getStatusRequest();
     }
@@ -69,4 +68,12 @@ public class LeaseRequestBean {
         this.statusRequest = statusRequest;
     }
 
+    @Override
+    public String toString() {
+        String format = "| %-12s | %-20s | %-20s |";
+        return String.format(format,
+                statusRequest != null ? statusRequest : "-",
+                typePermanence != null ? typePermanence : "-",
+                startPermanence != null ? startPermanence : "-") + tenant.toString();
+    }
 }

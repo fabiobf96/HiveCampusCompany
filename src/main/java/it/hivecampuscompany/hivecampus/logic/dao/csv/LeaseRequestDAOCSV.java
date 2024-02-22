@@ -2,17 +2,18 @@ package it.hivecampuscompany.hivecampus.logic.dao.csv;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import it.hivecampuscompany.hivecampus.logic.dao.LeaseRequestDAO;
-import it.hivecampuscompany.hivecampus.logic.exception.AuthenticateException;
-import it.hivecampuscompany.hivecampus.logic.exception.EmptyListException;
 import it.hivecampuscompany.hivecampus.logic.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
 import it.hivecampuscompany.hivecampus.logic.model.LeaseRequest;
 import it.hivecampuscompany.hivecampus.logic.model.Room;
-import it.hivecampuscompany.hivecampus.logic.model.Tenant;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,14 +22,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LeaseRequestDAOCSV implements LeaseRequestDAO {
-
+    private Properties properties;
     File fd;
     private static final Logger LOGGER = Logger.getLogger(LeaseRequestDAOCSV.class.getName());
 
     public LeaseRequestDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
-            Properties properties = new Properties();
+            properties = new Properties();
             properties.load(input);
+
             fd = new File(properties.getProperty("LEASE_REQUEST_PATH"));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
@@ -37,7 +39,6 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
     }
     @Override
     public void saveLeaseRequest(LeaseRequest leaseRequest) {
-        System.out.println("Sono qui"); //
         int lastId = findLastRowIndex();
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             String[] leaseRequestRecord = new String[6];
@@ -55,9 +56,37 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         }
     }
 
+    public void updateLeaseRequest(LeaseRequest updatedLeaseRequest) {
+        String filePath = properties.getProperty("LEASE_REQUEST_PATH");
+        File inputFile = new File(filePath);
+        File tempFile = new File(inputFile.getAbsolutePath() + ".tmp");
+
+        try (CSVReader reader = new CSVReader(new FileReader(inputFile));
+             CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
+
+            List<String[]> allRows = reader.readAll();
+            for (String[] row : allRows) {
+                if (Integer.parseInt(row[LeaseRoomAttributesOrder.GET_INDEX_REQUEST_ID]) == updatedLeaseRequest.getId()) {
+                    row[LeaseRoomAttributesOrder.GET_INDEX_STATUS] = updatedLeaseRequest.getStatusRequest();
+                }
+            }
+            writer.writeAll(allRows);
+        } catch (IOException | CsvException e) {
+            LOGGER.log(Level.SEVERE, "Failed to update lease request", e);
+            System.exit(2);
+        }
+
+        // Sostituisci il file originale con il file temporaneo aggiornato
+        try {
+            Files.move(tempFile.toPath(), Path.of(filePath), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to save lease request", e);
+            System.exit(2);
+        }
+    }
 
     @Override
-    public void retrieveLeaseRequestsByRoom(Room room) throws EmptyListException { ////// cambiata da Fabio
+    public void retrieveLeaseRequestsByRoom(Room room) {
         List<LeaseRequest> leaseRequests = new ArrayList<>();
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
             String[] nextRecord;
@@ -120,7 +149,6 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
 
                 if (tenant.getEmail().equals(storedEmail)){
                     int idRequest = Integer.parseInt(nextRecord[LeaseRoomAttributesOrder.GET_INDEX_REQUEST_ID].trim());
-                    int idRoom = Integer.parseInt(nextRecord[LeaseRoomAttributesOrder.GET_INDEX_ROOM_ID].trim());
                     String type = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_STAY_TYPE].trim();
                     String start = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_INIT_START].trim();
                     String status = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_STATUS].trim();

@@ -11,4 +11,5 @@ public interface RoomDAO {
     List<Room> retrieveRoomsByFilters(FiltersBean filtersBean);
     List<Room> retrieveRoomsByOwner(Account owner);
     String getRoomPath(String typeRoom);
+    void updateAvailability(Room room);
 }

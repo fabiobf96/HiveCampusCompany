@@ -7,18 +7,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CredentialsBean {
     protected String email;
     protected String password;
+    private static final Logger LOGGER = Logger.getLogger(CredentialsBean.class.getName());
 
     public CredentialsBean(){
 
-    }
-    public CredentialsBean(String email) {
-        this.email = email;
     }
 
     public CredentialsBean(String email, String password) throws InvalidEmailException, EmptyFieldsException {
@@ -51,12 +51,14 @@ public class CredentialsBean {
                 throw new InvalidEmailException("Indirizzo email non valido: " + email);
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(3);
+            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            System.exit(1);
         }
     }
 
     public void setEmail(String email) throws InvalidEmailException, EmptyFieldsException {
+        if(email.isEmpty()) throw new EmptyFieldsException("E-mail field is empty");
+        validateEmail(email);
         this.email = email;
     }
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox alignment="CENTER" prefWidth="500.0" style="-fx-border-color: grey; -fx-border-radius: 5;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <BorderPane VBox.vgrow="ALWAYS">
+            <center>
+                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox spacing="20.0">
+                            <children>
+                                <Label text="Select type of stay" />
+                                <HBox alignment="CENTER" spacing="10.0">
+                                    <children>
+                                        <RadioButton mnemonicParsing="false" text="6 MONTHS" />
+                                        <RadioButton mnemonicParsing="false" text="12 MONTHS" />
+                                        <RadioButton mnemonicParsing="false" text="24 MONTHS" />
+                                        <RadioButton mnemonicParsing="false" text="36 MONTHS" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox spacing="20.0">
+                            <children>
+                                <Label text="Select start of stay" />
+                                <VBox alignment="CENTER" spacing="10.0">
+                                    <children>
+                                        <HBox alignment="CENTER" spacing="10.0">
+                                            <children>
+                                                <RadioButton mnemonicParsing="false" text="SEPTEMBER" />
+                                                <RadioButton mnemonicParsing="false" text="OCTOBER" />
+                                                <RadioButton mnemonicParsing="false" text="NOVEMBER" />
+                                                <RadioButton mnemonicParsing="false" text="DECEMBER" />
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER" spacing="10.0">
+                                            <children>
+                                                <RadioButton mnemonicParsing="false" text="JANUARY" />
+                                                <RadioButton mnemonicParsing="false" text="FEBRUARY" />
+                                                <RadioButton mnemonicParsing="false" text="MARCH" />
+                                                <RadioButton mnemonicParsing="false" text="APRIL" />
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER" spacing="10.0">
+                                            <children>
+                                                <RadioButton mnemonicParsing="false" text="MAY" />
+                                                <RadioButton mnemonicParsing="false" text="JUNE" />
+                                                <RadioButton mnemonicParsing="false" text="JULY" />
+                                                <RadioButton mnemonicParsing="false" text="AUGUST" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+                        <Button mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: #469508;" text="Send Lease Request" textFill="WHITE"/>
+                    </children>
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </padding>
+                </VBox>
+            </center>
+            <top>
+                <VBox style="-fx-background-color: #D9D9D9;" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label text="LEASE REQUEST FORM">
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                </VBox>
+            </top>
+        </BorderPane>
+    </children>
+</VBox>

@@ -1,6 +1,5 @@
 package it.hivecampuscompany.hivecampus.logic.dao.mysql;
 
-import it.hivecampuscompany.hivecampus.logic.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.logic.bean.CredentialsBean;
 import it.hivecampuscompany.hivecampus.logic.control.ConnectionManager;
 import it.hivecampuscompany.hivecampus.logic.dao.AccountDAO;

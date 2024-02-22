@@ -33,6 +33,51 @@ public class LeaseRequestJavaFxController {
         this.roomLeaseRequestManager = roomLeaseRequestManager;
         this.roomBean = roomBean;
     }
+    /*
+    @FXML
+    public void handleStartPermancenceClick() {
+        // Manage the start permanence button click event
+        vboxStart.getChildren().forEach(hbox -> {
+            ((HBox) hbox).getChildren().forEach(button -> {
+                ((Button) button).setOnAction(event -> handleMonthButtonClick((Button) button));
+            });
+        });
+        System.out.println("Start permanence button clicked");
+    }
+
+    private void handleMonthButtonClick(Button button) {
+
+    }
+
+    @FXML
+    public void handleTypePermancenceClick() {
+        // Manage the start permanence button click event
+        hboxType.getChildren().forEach(button -> {
+            button.setOnMouseClicked(event -> handleTypeButtonClick((Button) button));
+        });
+        System.out.println("Start permanence button clicked");
+    }
+
+    private void handleTypeButtonClick(Button button) {
+
+    }
+
+
+    @FXML
+
+    public void handleSendRequestClick() {
+
+
+
+
+        try {
+            roomLeaseRequestManager.sendLeaseRequest();
+        } catch (InvalidSessionException e) {
+            e.printStackTrace();
+        }
+    }
+
+     */
 
 
 }

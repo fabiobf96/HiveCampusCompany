@@ -32,23 +32,6 @@ public class SimpleQueries {
         return stmt.executeQuery(sql);
     }
 
-    public static ResultSet selectAccountInformation(Statement stmt, String email) throws SQLException {
-        ResultSet res;
-        String sql = SELECT_QUERY_PREFIX  +
-                "    A.username,\n" +
-                "    A.ruolo,\n" +
-                "    COALESCE(P.nome, Af.nome) AS nome,\n" +
-                "    COALESCE(P.cognome, Af.cognome) AS cognome,\n" +
-                "    COALESCE(P.telefono, Af.telefono) AS telefono\n" +
-                "    \n" +
-                "FROM hivecampus.account A\n" +
-                "LEFT JOIN hivecampus.proprietario P ON A.username = P.username AND A.ruolo = 'owner'\n" +
-                "LEFT JOIN hivecampus.affittuario Af ON A.username = Af.username AND A.ruolo = 'tenant'\n" +
-                "WHERE A.username = '" + email + "';";
-        res = stmt.executeQuery(sql);
-        return res;
-    }
-
     public static ResultSet selectOwnerByIdHome (Statement stmt, int idHome) throws SQLException {
         ResultSet res;
         String sql = SELECT_QUERY_PREFIX  +
