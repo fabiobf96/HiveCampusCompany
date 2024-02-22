@@ -1,6 +1,7 @@
 package it.hivecampuscompany.hivecampus.graphic.cli.ownerhomepage;
 
 
+import it.hivecampuscompany.hivecampus.graphic.cli.managerequestowner.ManageLeaseOwnerCliController;
 import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.logic.control.SessionManager;
 
@@ -10,7 +11,7 @@ public class OwnerHomeCliController {
     public OwnerHomeCliController(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
         view = new OwnerHomeCliView();
-        view.displayOwnerHomeMessage();
+        view.displayWelcomeMessage("OWNER HOME PAGE");
         handleUserChoice();
     }
 
@@ -18,7 +19,7 @@ public class OwnerHomeCliController {
         int choice = view.getUserChoice();
         switch (choice) {
             case 2:
-                //new OwnerLeaseRoomCliController(sessionBean);
+                new ManageLeaseOwnerCliController(sessionBean);
                 break;
             case 5:
                 SessionManager sessionManager = SessionManager.getInstance();

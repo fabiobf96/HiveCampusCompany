@@ -1,8 +1,9 @@
 package it.hivecampuscompany.hivecampus.logic.model;
 
 import it.hivecampuscompany.hivecampus.logic.bean.LeaseRequestBean;
+import it.hivecampuscompany.hivecampus.logic.facade.DAOFactoryFacade;
 
-public class LeaseRequest { // implements Observer
+public class LeaseRequest implements Observer{ // implements Observer
     private Account account;
     private Room room;
     private int id;
@@ -74,5 +75,12 @@ public class LeaseRequest { // implements Observer
 
     public void setStatusRequest(String statusRequest) {
         this.statusRequest = statusRequest;
+    }
+
+    @Override
+    public void update() {
+        statusRequest = "affittata";
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        daoFactoryFacade.getLeaseRequestDAO().updateLeaseRequest(this);
     }
 }
