@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.graphic.javafx.tenanthomepage.TenantHomeJavaFxController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER_RIGHT" spacing="10.0" style="-fx-background-color: #595959;">
             <children>
@@ -31,7 +31,7 @@
                 </MenuButton>
                 <MenuButton fx:id="btnMenuAccount" mnemonicParsing="false" text="Account">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleLogout" text="Logout" />
+                        <MenuItem fx:id="btnLogout" mnemonicParsing="false" text="Logout" />
                     </items>
                 </MenuButton>
             </children>

@@ -87,21 +87,22 @@ public class LoginJavaFxController {
             switch (sessionBean.getTypeAccount()){
                 case ("owner"):
                     // Create a new instance of OwnerHomeJavaFxController and pass the sessionBean
-                    //new OwnerHomeJavaFxController(sessionBean);
-                    //new OwnerHomeJavaFxGUI().start(stage);
                     break;
 
                 case ("tenant"):
-                    new TenantHomeJavaFxController(sessionBean);
-                    new TenantHomeJavaFxGUI().start(stage);
+                    TenantHomeJavaFxController tenantController = new TenantHomeJavaFxController();
+                    new TenantHomeJavaFxGUI().startWithController(stage, tenantController);
+                    tenantController.initialize(sessionBean);
                     break;
+
                 default : System.exit(3);
             }
         } catch (Exception e) {
-            //showErrorAlert("Error loading homepage window.");
+            showErrorAlert("Error loading homepage window.");
             throw new RuntimeException(e);
         }
     }
+
 
     private void clearFields() {
         txfEmail.clear();

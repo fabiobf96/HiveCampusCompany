@@ -4,6 +4,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 import it.hivecampuscompany.hivecampus.logic.dao.LeaseRequestDAO;
+import it.hivecampuscompany.hivecampus.logic.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.logic.exception.EmptyListException;
 import it.hivecampuscompany.hivecampus.logic.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
@@ -13,6 +14,7 @@ import it.hivecampuscompany.hivecampus.logic.model.Tenant;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -35,85 +37,129 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
     }
     @Override
     public void saveLeaseRequest(LeaseRequest leaseRequest) {
+        System.out.println("Sono qui"); //
         int lastId = findLastRowIndex();
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
-            String[] leaseRequestRecord = new String[5];
+            String[] leaseRequestRecord = new String[6];
             leaseRequestRecord[LeaseRoomAttributesOrder.GET_INDEX_REQUEST_ID] = String.valueOf(lastId);
             leaseRequestRecord[LeaseRoomAttributesOrder.GET_INDEX_ROOM_ID] = String.valueOf(leaseRequest.getRoom().getIdRoom());
             leaseRequestRecord[LeaseRoomAttributesOrder.GET_INDEX_EMAIL] = leaseRequest.getAccount().getEmail();
-            leaseRequestRecord[LeaseRoomAttributesOrder.GET_INDEX_INIT_DATE] = leaseRequest.getDate();
+            leaseRequestRecord[LeaseRoomAttributesOrder.GET_INDEX_INIT_START] = leaseRequest.getStartPermanence();
             leaseRequestRecord[LeaseRoomAttributesOrder.GET_INDEX_STAY_TYPE] = leaseRequest.getTypePermanence();
+            leaseRequestRecord[LeaseRoomAttributesOrder.GET_INDEX_STATUS] = leaseRequest.getStatusRequest();
             writer.writeNext(leaseRequestRecord);
-            // User created successfully
+
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to save lease request", e);
             System.exit(2);
         }
     }
 
+
     @Override
-    public void retrieveLeaseRequestsByRoom(Room room) throws EmptyListException {
-        String csvSplitBy = ",";
+    public void retrieveLeaseRequestsByRoom(Room room) throws EmptyListException { ////// cambiata da Fabio
         List<LeaseRequest> leaseRequests = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fd))) {
-            String line;
-            while ((line = br.readLine()) != null) {
+        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+            String[] nextRecord;
+            while ((nextRecord = reader.readNext()) != null) {
 
-                String[] rentalRequest = line.split(csvSplitBy);
+                String storedRoomId = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_ROOM_ID].trim();
 
-                int roomId = Integer.parseInt(rentalRequest[LeaseRoomAttributesOrder.GET_INDEX_ROOM_ID].trim());
+                if (room.getIdRoom().equals(Integer.parseInt(storedRoomId))) {
+                    int requestId = Integer.parseInt(nextRecord[LeaseRoomAttributesOrder.GET_INDEX_REQUEST_ID].trim());
+                    String tenantEmail = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_EMAIL].trim();
+                    String startDate = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_INIT_START].trim();
+                    String duration = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_STAY_TYPE].trim();
+                    String leaseStatus = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_STATUS].trim();
 
-                if(room.getIdRoom() == roomId) {
-                    int requestId = Integer.parseInt(rentalRequest[LeaseRoomAttributesOrder.GET_INDEX_REQUEST_ID].trim());
-                    String tenantEmail = rentalRequest[LeaseRoomAttributesOrder.GET_INDEX_EMAIL].trim();
-                    String startDate = rentalRequest[LeaseRoomAttributesOrder.GET_INDEX_INIT_DATE].trim();
-                    String duration = rentalRequest[LeaseRoomAttributesOrder.GET_INDEX_STAY_TYPE].trim();
-                    DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
-                    Account tenant = daoFactoryFacade.getAccountDAO().retrieveAccountDetails(tenantEmail);
-                    leaseRequests.add(new LeaseRequest(requestId, tenant, startDate, duration));
+                    if (!leaseStatus.equals("rifiutata") && !leaseStatus.equals("affittata")) {
+                        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+                        Account tenant = daoFactoryFacade.getAccountDAO().retrieveAccountDetails(tenantEmail);
+                        LeaseRequest leaseRequest = new LeaseRequest(requestId, tenant, startDate, duration, leaseStatus);
+                        leaseRequests.add(leaseRequest);
+                    }
                 }
             }
-            if (leaseRequests.isEmpty()){
-                throw new EmptyListException("There are any Lease Request specified room");
-            }
-        }catch (IOException e) {
+
+        } catch (IOException | CsvValidationException e) {
             LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
             System.exit(1);
         }
         room.setLeaseRequests(leaseRequests);
     }
 
+
+
     @Override
-    public List<LeaseRequest> retrieveLeaseRequestsByTenant(Tenant tenant) {
-        return null;
+    public boolean hasActiveLeaseRequest(Account tenant, Integer idRoom) {
+        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+            String[] nextRecord;
+            while ((nextRecord = reader.readNext()) != null) {
+                String storedEmail = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_EMAIL].trim();
+                String storedRoomId = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_ROOM_ID].trim();
+                if (tenant.getEmail().equals(storedEmail) && idRoom.equals(Integer.parseInt(storedRoomId))) {
+                    return true;
+                }
+            }
+        } catch (IOException | CsvValidationException e) {
+            LOGGER.log(Level.SEVERE, "Failed to retrieve account by credentials", e);
+        }
+
+        return false;
     }
+
+
+    @Override
+    public List<LeaseRequest> retrieveLeaseRequestsByTenant(Account tenant) {
+        List<LeaseRequest> leaseRequests = new ArrayList<>();
+
+        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+            String[] nextRecord;
+            while ((nextRecord = reader.readNext()) != null) {
+                String storedEmail = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_EMAIL].trim();
+
+                if (tenant.getEmail().equals(storedEmail)){
+                    int idRequest = Integer.parseInt(nextRecord[LeaseRoomAttributesOrder.GET_INDEX_REQUEST_ID].trim());
+                    int idRoom = Integer.parseInt(nextRecord[LeaseRoomAttributesOrder.GET_INDEX_ROOM_ID].trim());
+                    String type = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_STAY_TYPE].trim();
+                    String start = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_INIT_START].trim();
+                    String status = nextRecord[LeaseRoomAttributesOrder.GET_INDEX_STATUS].trim();
+
+                    LeaseRequest leaseRequest = new LeaseRequest(idRequest, tenant, start, type, status);
+                    leaseRequests.add(leaseRequest);
+                }
+            } return leaseRequests;
+        } catch (IOException | CsvValidationException e) {
+            LOGGER.log(Level.SEVERE, "Failed to read CSV file", e);
+        }
+        return Collections.emptyList();
+    }
+
     private static class LeaseRoomAttributesOrder{
         static final int GET_INDEX_REQUEST_ID= 0;
         static final int GET_INDEX_ROOM_ID = 1;
         static final int GET_INDEX_EMAIL = 2;
-        static final int GET_INDEX_INIT_DATE = 3;
+        static final int GET_INDEX_INIT_START = 3;
         static final int GET_INDEX_STAY_TYPE = 4;
+        static final int GET_INDEX_STATUS = 5;
     }
+
     private int findLastRowIndex() {
         int lastID = 0;
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
             String[] nextRecord;
             while ((nextRecord = reader.readNext()) != null) {
-                lastID = Integer.parseInt(nextRecord[LeaseRoomAttributesOrder.GET_INDEX_ROOM_ID]);
+                lastID = Integer.parseInt(nextRecord[LeaseRoomAttributesOrder.GET_INDEX_REQUEST_ID].trim());
             }
         } catch (IOException | CsvValidationException e) {
             LOGGER.log(Level.SEVERE, "Failed to retrieve account by credentials", e);
         }
-        return lastID;
+        if (lastID == 0) {
+            return 0;
+        }
+        else {
+            return lastID + 1;
+        }
     }
 
-    public static void main(String[] args){
-        Account tenant = new Account();
-        tenant.setEmail("marta.rossi@gmail.com");
-        Room room = new Room();
-        room.setIdRoom(3);
-        String typePermanence = "6mesi";
-        String startPermanence = "Settembre";
-        LeaseRequest leaseRequest = new LeaseRequest();
-    }
 }

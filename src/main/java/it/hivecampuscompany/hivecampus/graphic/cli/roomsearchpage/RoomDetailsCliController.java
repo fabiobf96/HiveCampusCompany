@@ -5,39 +5,56 @@ import it.hivecampuscompany.hivecampus.logic.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.logic.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.logic.control.RoomLeaseRequestManager;
+import it.hivecampuscompany.hivecampus.logic.exception.InvalidSessionException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RoomDetailsCliController {
 
-    private SessionBean sessionBean;
+    private final RoomLeaseRequestManager manager;
+
+    private final SessionBean sessionBean;
     private final RoomDetailsCliView view;
 
-    public RoomDetailsCliController(SessionBean sessionBean) {
+    public RoomDetailsCliController(SessionBean sessionBean, RoomLeaseRequestManager manager) {
         this.sessionBean = sessionBean;
+        this.manager = manager;
         this.view = new RoomDetailsCliView();
     }
 
-    public void handleRoomDetails(RoomLeaseRequestManager roomLeaseRequestManager) {
-        String idRoom = view.getUserInput("Inserisci l'id della stanza: ");
-        RoomBean roomBean = roomLeaseRequestManager.getRoomDetails(idRoom);
+
+    public void handleRoomDetails() throws InvalidSessionException {  // la vecchia versione sta su sublime
+        int index = getValidIntegerInput("Inserisci l'indice della stanza: ");
+        RoomBean roomBean = manager.getRoomDetails(index);
 
         if (roomBean != null) {
-            AccountBean ownerAccountBean = roomLeaseRequestManager.getOwnerDetails(roomBean.getOwnerEmail());
-            showRoomDetails(roomBean, ownerAccountBean);
-            String choice = view.getUserInput("Vuoi effettuare una richiesta di affitto per questa stanza? (si/no): ");
-            if (choice.equals("si")) {
-                // Call the RoomLeaseRequestCliController
-                LeaseRequestCliController leaseRequestCliController = new LeaseRequestCliController(sessionBean);
-                leaseRequestCliController.handleRoomLeaseRequest(roomLeaseRequestManager, roomBean, ownerAccountBean);
 
+            AccountBean ownerAccountBean = manager.getOwnerDetails(roomBean.getOwnerEmail());
+            showRoomDetails(roomBean, ownerAccountBean);
+
+            // Verifica se l'utente ha già una richiesta attiva per questa stanza
+            boolean hasActiveRequest = manager.hasActiveLeaseRequest(sessionBean, roomBean.getIdRoom()); /////////////
+
+            if (hasActiveRequest) {
+                view.displayMessage("Hai già una richiesta attiva per questa stanza.");
+                // torna indietro
             }
-        }
-        else {
+
+            else {
+                String choice = view.getUserInput("Vuoi effettuare una richiesta di affitto per questa stanza? (si/no): ");
+                if (choice.equals("si")) {
+                    // Call the RoomLeaseRequestCliController
+                    LeaseRequestCliController leaseRequestCliController = new LeaseRequestCliController(sessionBean, manager);
+                    leaseRequestCliController.handleRoomLeaseRequest(roomBean);
+                }
+            }
+
+        } else {
             view.displayMessage("Stanza non trovata.");
         }
     }
+
 
     private void showRoomDetails(RoomBean roomBean, AccountBean accountBean) {
 
@@ -45,7 +62,7 @@ public class RoomDetailsCliController {
         List<String> roomFeatures = new ArrayList<>();
         List<String> ownerDetails = new ArrayList<>();
 
-        String title = "Stanza " + roomBean.getRoomType() + " - " + roomBean.getStreet() + ", " + roomBean.getStreetNumber() + ", " + roomBean.getCity() + " - € " + roomBean.getPrice() + "/mese";
+        String title = "Stanza " + roomBean.getTypeRoom() + " - " + roomBean.getAddress() + " - € " + roomBean.getPrice() + "/mese";
         String distanceFromUniversity = "Distanza dall'università" + roomBean.getUniversity() + ": " + roomBean.getDistance() + " km";
         String availability = "Disponibilità: " + roomBean.getAvailability();
 
@@ -88,6 +105,26 @@ public class RoomDetailsCliController {
         ownerDetails.add(ownerTelephone);
 
         view.displayRoomDetails(title, houseFeatures, roomFeatures, ownerDetails, availability, distanceFromUniversity);
-
     }
+
+    public Integer getValidIntegerInput(String message) {
+        Integer result = null;
+        boolean isValid = false;
+
+        while (!isValid) {
+            String userInput = view.getUserInput(message);
+            if (userInput.isEmpty()) {
+                System.out.println("Devi inserire un valore.");
+                continue;
+            }
+            try {
+                result = Integer.parseInt(userInput);
+                isValid = true; // Imposta isValid a true se l'input è un intero valido
+            } catch (NumberFormatException e) {
+                System.out.println("Inserire un valore numerico valido.");
+            }
+        }
+        return result;
+    }
+
 }

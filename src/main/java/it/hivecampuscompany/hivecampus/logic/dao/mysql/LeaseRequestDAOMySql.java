@@ -4,6 +4,7 @@ import it.hivecampuscompany.hivecampus.logic.control.ConnectionManager;
 import it.hivecampuscompany.hivecampus.logic.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.logic.dao.LeaseRequestDAO;
 import it.hivecampuscompany.hivecampus.logic.facade.DAOFactoryFacade;
+import it.hivecampuscompany.hivecampus.logic.model.Account;
 import it.hivecampuscompany.hivecampus.logic.model.LeaseRequest;
 import it.hivecampuscompany.hivecampus.logic.model.Room;
 import it.hivecampuscompany.hivecampus.logic.model.Tenant;
@@ -33,7 +34,17 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
     }
     @Override
     public void saveLeaseRequest(LeaseRequest leaseRequest) {
-
+        String query = "INSERT INTO hivecampus.richiesta_di_affitto(stanza, affittuario, inizioPermanenza, tipoPermanenza) VALUES (?, ?, ?, ?);";
+        System.out.println(leaseRequest.getRoom().getIdRoom() + " " + leaseRequest.getAccount().getEmail() + " " + leaseRequest.getStartPermanence() + " " + leaseRequest.getTypePermanence());
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, leaseRequest.getRoom().getIdRoom());
+            stmt.setString(2, leaseRequest.getAccount().getEmail());
+            stmt.setString(3, leaseRequest.getStartPermanence());
+            stmt.setString(4, leaseRequest.getTypePermanence());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -58,13 +69,18 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
         LeaseRequest leaseRequest = new LeaseRequest();
         leaseRequest.setId(resultSet.getInt("id"));
         leaseRequest.setAccount(accountDAO.retrieveAccountDetails(resultSet.getString("affittuario")));
-        leaseRequest.setDate(resultSet.getDate("inizioPermanenza").toString());
+        leaseRequest.setStartPermanence(resultSet.getDate("inizioPermanenza").toString());
         leaseRequest.setTypePermanence(resultSet.getString("tipoPermanenza"));
         return leaseRequest;
     }
 
     @Override
-    public List<LeaseRequest> retrieveLeaseRequestsByTenant(Tenant tenant) {
+    public List<LeaseRequest> retrieveLeaseRequestsByTenant(Account tenant) {
         return null;
+    }
+
+    @Override
+    public boolean hasActiveLeaseRequest(Account tenant, Integer idRoom) { ////////
+        return false;
     }
 }

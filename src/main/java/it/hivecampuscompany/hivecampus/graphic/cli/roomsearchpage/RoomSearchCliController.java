@@ -13,11 +13,12 @@ import java.util.List;
 
 public class RoomSearchCliController {
 
-    private SessionBean sessionBean;
+    private final SessionBean sessionBean;
     private final RoomSearchCliView view;
     private final RoomLeaseRequestManager manager;
 
     public RoomSearchCliController(SessionBean sessionBean) throws InvalidSessionException {
+        //validateSessionBean(sessionBean);
         this.sessionBean = sessionBean;
         this.view = new RoomSearchCliView();
         this.manager = new RoomLeaseRequestManager(sessionBean);
@@ -36,10 +37,10 @@ public class RoomSearchCliController {
 
             Float maxDistance = validateNumericInput(view.getUserInput("Inserisci distanza massima: "), 15F);
             Integer maxPrice = (validateNumericInput(view.getUserInput("Inserisci prezzo massimo: "), 1000F)).intValue();
-            Boolean privateBathroom = Boolean.parseBoolean(view.getUserInput("Bagno privato? (si/no): "));
-            Boolean balcony = Boolean.parseBoolean(view.getUserInput("Balcone? (si/no): "));
-            Boolean conditioner = Boolean.parseBoolean(view.getUserInput("Aria condizionata? (si/no): "));
-            Boolean tvConnection = Boolean.parseBoolean(view.getUserInput("Aria condizionata? (si/no): "));
+            Boolean privateBathroom = (view.getUserInput("Bagno privato? (si/no): ")).equalsIgnoreCase("si");
+            Boolean balcony = (view.getUserInput("Balcone? (si/no): ")).equalsIgnoreCase("si");
+            Boolean conditioner = (view.getUserInput("Aria condizionata? (si/no): ")).equalsIgnoreCase("si");
+            Boolean tvConnection = (view.getUserInput("Aria condizionata? (si/no): ")).equalsIgnoreCase("si");
 
             FiltersBean filtersBean = new FiltersBean(university, maxDistance, maxPrice, privateBathroom, balcony, conditioner, tvConnection);
 
@@ -52,18 +53,17 @@ public class RoomSearchCliController {
                 if (roomBeans == null || roomBeans.isEmpty()) {
                     view.displayMessage("Nessuna stanza trovata con i filtri specificati.");
                 } else {
-                    for (RoomBean roomBean : roomBeans) {
-                        // Call the PreviewRoomCliController
-                        PreviewRoomCliController previewRoomCliController = new PreviewRoomCliController();
-                        previewRoomCliController.showPreviewRoom(roomBean);
-                    }
+
+                    resultRoomSearch(roomBeans);
                     choice = view.getUserInput("Vuoi visualizzare i dettagli di una stanza? (si/no): ");
+
                     if (choice.equals("si")) {
                         // Call the RoomDetailsCliController
-                        RoomDetailsCliController roomDetailsCliController = new RoomDetailsCliController(sessionBean);
-                        roomDetailsCliController.handleRoomDetails(manager);
+                        RoomDetailsCliController roomDetailsCliController = new RoomDetailsCliController(sessionBean, manager);
+                        roomDetailsCliController.handleRoomDetails();
                     }
                 }
+
             } catch (InvalidSessionException | EmptyListException e) {
                 throw new RuntimeException(e);
             }
@@ -85,6 +85,19 @@ public class RoomSearchCliController {
         }
     }
 
+    public void resultRoomSearch(List<RoomBean> roomBeans) {
+        if (roomBeans == null || roomBeans.isEmpty()) {
+            view.displayMessage("Nessun risultato trovato");
+            return;
+        }
+        for (int i = 0; i < roomBeans.size(); i++) {
+            // Call the PreviewRoomCliController
+            PreviewRoomCliController previewRoomCliController = new PreviewRoomCliController();
+            previewRoomCliController.showPreviewRoom(roomBeans.get(i), i);
+        }
+    }
+
+
     private Float validateNumericInput(String input, float defaultValue) {
         // Verify if the input is empty
         if (input.isEmpty()){
@@ -99,7 +112,7 @@ public class RoomSearchCliController {
                 }
             } catch (NumberFormatException e) {
                 view.displayMessage("Invalid filter value specified.");
-                view.displayRoomSearchMessage();
+                return defaultValue;
             }
         }
         return Float.parseFloat(input);

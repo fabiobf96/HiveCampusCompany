@@ -1,9 +1,6 @@
 package it.hivecampuscompany.hivecampus.logic.control;
 
-import it.hivecampuscompany.hivecampus.logic.bean.FiltersBean;
-import it.hivecampuscompany.hivecampus.logic.bean.LeaseRequestBean;
-import it.hivecampuscompany.hivecampus.logic.bean.RoomBean;
-import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.logic.bean.*;
 import it.hivecampuscompany.hivecampus.logic.dao.LeaseRequestDAO;
 import it.hivecampuscompany.hivecampus.logic.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.logic.exception.EmptyListException;
@@ -12,6 +9,7 @@ import it.hivecampuscompany.hivecampus.logic.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
 import it.hivecampuscompany.hivecampus.logic.model.LeaseRequest;
 import it.hivecampuscompany.hivecampus.logic.model.Room;
+import it.hivecampuscompany.hivecampus.logic.model.Tenant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,15 +43,37 @@ public class RoomLeaseRequestManager {
         return roomBeans;
     }
 
+    public RoomBean getRoomDetails(int index){
+        for (int i = 0; i < rooms.size(); i++) {
+            if (i == index) {
+                return new RoomBean(rooms.get(i));
+            }
+        } return null;
+    }
+
+    public AccountBean getOwnerDetails(String email){
+        for (Room room : rooms) {
+            if (Objects.equals(room.getOwnerAccount().getEmail(), email)) {
+                return new AccountBean(room.getOwnerAccount());
+            }
+        }
+        return null;
+    }
+
     public void sendLeaseRequest(SessionBean sessionBean, LeaseRequestBean leaseRequestBean) throws InvalidSessionException {
         verifySessionBean(sessionBean);
         LeaseRequest leaseRequest = new LeaseRequest(leaseRequestBean);
-        leaseRequest.setAccount(tenant);
-        for (Room room : rooms){
-            if (Objects.equals(room.getIdRoom(), leaseRequestBean.getRoomBean())){
+
+        for (Room room : rooms) {
+            if (room.getIdRoom().equals(leaseRequestBean.getRoomBean().getIdRoom())) {
                 leaseRequest.setRoom(room);
             }
         }
+
+        leaseRequest.setAccount(tenant); // setto il tenant
+
+        System.out.println(leaseRequest);
+
         leaseRequestDAO.saveLeaseRequest(leaseRequest);
     }
 
@@ -61,5 +81,14 @@ public class RoomLeaseRequestManager {
         if(!sessionManager.isValid(sessionBean)){
             throw new InvalidSessionException();
         }
+    }
+
+    public boolean hasActiveLeaseRequest(SessionBean sessionBean, Integer idRoom) throws InvalidSessionException { /////
+        verifySessionBean(sessionBean);
+        return leaseRequestDAO.hasActiveLeaseRequest(tenant, idRoom);
+    }
+
+    public String getRoomPath(String typeRoom) {
+        return roomDAO.getRoomPath(typeRoom);
     }
 }

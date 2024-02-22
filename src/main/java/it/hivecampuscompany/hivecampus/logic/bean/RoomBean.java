@@ -2,7 +2,7 @@ package it.hivecampuscompany.hivecampus.logic.bean;
 
 import it.hivecampuscompany.hivecampus.logic.model.Room;
 
-public class RoomBean extends PreviewRoomBean {
+public class RoomBean extends PreviewRoomBean  {
     private Integer roomSurface;
     private Boolean privateBathroom;
     private Boolean balcony;
@@ -10,6 +10,7 @@ public class RoomBean extends PreviewRoomBean {
     private Boolean tvConnection;
     private String roomDescription;
     private String availability;
+   // private String isAvailable;
 
     private Integer idHome;
     private Float houseLatitude;
@@ -40,6 +41,7 @@ public class RoomBean extends PreviewRoomBean {
         this.tvConnection = room.getTvConnection();
         this.roomDescription = room.getRoomDescription();
         this.availability = room.getAvailability();
+        //this.isAvailable = room.getIsAvailable();
         this.idHome = room.getIdHome();
         this.houseLatitude = room.getHouseLatitude();
         this.houseLongitude = room.getHouseLongitude();

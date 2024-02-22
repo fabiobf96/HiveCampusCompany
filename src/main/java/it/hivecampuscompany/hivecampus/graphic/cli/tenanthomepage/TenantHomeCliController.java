@@ -19,18 +19,17 @@ public class TenantHomeCliController {
         int choice = view.getUserChoice();
         switch (choice) {
             case 1:
-                new RoomSearchCliController(sessionBean);
-                RoomSearchCliController controller =  new RoomSearchCliController(sessionBean);
-                controller.searchRooms();
+                RoomSearchCliController roomSearchCliController =  new RoomSearchCliController(sessionBean);
+                roomSearchCliController.searchRooms();
                 break;
             case 2:
-                System.out.println("manage requests()");
+                System.out.println("MANAGE LEASE REQUESTS");
                 break;
             case 3:
-                System.out.println("manage contract()");
+                System.out.println("MANAGE CONTRACT");
                 break;
             case 4:
-                System.out.println("manage rent rates()");
+                System.out.println("MANAGE RENT RATES");
                 break;
             case 5:
                 System.exit(0);

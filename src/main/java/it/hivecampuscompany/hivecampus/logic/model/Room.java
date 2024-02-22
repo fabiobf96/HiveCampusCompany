@@ -1,5 +1,7 @@
 package it.hivecampuscompany.hivecampus.logic.model;
 
+import it.hivecampuscompany.hivecampus.logic.bean.RoomBean;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -42,6 +44,7 @@ public class Room implements Serializable {
     public Room(){
         //Costruttore di default
     }
+
 
     public Integer getIdRoom() {
         return idRoom;
@@ -269,5 +272,13 @@ public class Room implements Serializable {
 
     public void setLeaseRequests(List<LeaseRequest> leaseRequests) {
         this.leaseRequests = leaseRequests;
+    }
+
+    public Boolean getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(Boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 }

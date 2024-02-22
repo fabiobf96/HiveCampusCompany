@@ -5,7 +5,6 @@ import it.hivecampuscompany.hivecampus.logic.control.ConnectionManager;
 import it.hivecampuscompany.hivecampus.logic.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.logic.dao.queries.SimpleQueries;
 import it.hivecampuscompany.hivecampus.logic.model.Account;
-import it.hivecampuscompany.hivecampus.logic.model.Owner;
 import it.hivecampuscompany.hivecampus.logic.model.Room;
 import it.hivecampuscompany.hivecampus.logic.utility.RoundingFunction;
 
@@ -21,6 +20,7 @@ import java.util.Properties;
 public class RoomDAOMySql implements RoomDAO {
     private final Connection conn;
     private final Properties properties;
+    private final Properties imageProperties;
 
     public RoomDAOMySql() {
         conn = ConnectionManager.getConnection();
@@ -30,6 +30,12 @@ public class RoomDAOMySql implements RoomDAO {
         } catch (IOException e) {
             throw new IllegalArgumentException("Error loading database properties.", e);
         }
+        imageProperties = new Properties();
+        try (InputStream input = new FileInputStream("properties/config.properties")) {
+            imageProperties.load(input);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Error loading image properties.", e);
+        }
     }
 
     @Override
@@ -37,57 +43,58 @@ public class RoomDAOMySql implements RoomDAO {
 
         List<Room> listOfRooms = new ArrayList<>();
 
+        // Utilizzo del blocco try-with-resources per garantire che le risorse siano chiuse correttamente
         try {
             String sql = SimpleQueries.buildRoomFiltersQuery(filtersBean);
 
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, filtersBean.getUniversity());
+                pstmt.setFloat(2, filtersBean.getDistance());
+                pstmt.setInt(3, filtersBean.getMaxPrice());
 
-            pstmt.setString(1, filtersBean.getUniversity());
-            pstmt.setFloat(2, filtersBean.getDistance());
-            pstmt.setInt(3, filtersBean.getMaxPrice());
+                try (ResultSet res = pstmt.executeQuery()) {
+                    // Se il result set è vuoto, restituisci una lista vuota
+                    if (!res.first()) {
+                        return Collections.emptyList();
+                    }
 
-            ResultSet res = pstmt.executeQuery();
+                    // Riposizionamento del cursore al primo record
+                    res.first();
 
-            ////////////////
-            if (!res.first()) { // se res è vuoto, non esistono stanze in affitto nella citta specificata
-                return Collections.emptyList();
-            }
-            /////////////
+                    do {
+                        try (Statement stmt = conn.createStatement();
+                             ResultSet res2 = SimpleQueries.selectOwnerByIdHome(stmt, res.getInt("idImmobile"))) {
 
-            // riposizionamento del cursore
-            res.first();
+                            // Se il result set è vuoto, restituisci una lista vuota
+                            if (!res2.first()) {
+                                return Collections.emptyList();
+                            }
 
-            do {
-                Statement stmt = conn.createStatement();
-                ResultSet res2 = SimpleQueries.selectOwnerByIdHome(stmt, res.getInt("idImmobile"));
+                            res2.first();
 
-                if (!res2.first()) { // se res è vuoto, non esiste un account con l'email specificata
-                    return Collections.emptyList();
+                            //Creo un'istanza della classe Account
+                            Account owner = new Account(res2.getString("username"), null, res2.getString("nome"), res2.getString("cognome"), null, res2.getString("telefono"));
+
+                            // Creo un'istanza della classe Room
+                            Room room = fillRoom(res);
+
+                            room.setUniversity(res.getString("universita"));
+                            room.setDistance(RoundingFunction.roundingDouble(Float.parseFloat(res.getString("distanza"))));
+
+                            room.setOwnerAccount(owner);
+
+                            listOfRooms.add(room); // Aggiungo l'oggetto Room alla lista
+                        }
+                    } while (res.next());
                 }
-
-                res2.first();
-
-                //Creo un'istanza della classe Account
-                Account owner = new Account(res2.getString("username"), null,res2.getString("nome"), res2.getString("cognome"), null, res2.getString("telefono"));
-
-                // Creo un'istanza della classe Room
-                Room room = fillRoom(res);
-
-                room.setUniversity(res.getString("universita"));
-                room.setDistance(RoundingFunction.roundingDouble(Float.parseFloat(res.getString("distanza"))));
-
-                room.setOwnerAccount(owner);
-
-                listOfRooms.add(room); // Aggiungo l'oggetto Room alla lista
-
-            }while (res.next());
-
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         return listOfRooms;
     }
+
 
     @Override
     public List<Room> retrieveRoomsByOwner(Account owner) {
@@ -103,6 +110,19 @@ public class RoomDAOMySql implements RoomDAO {
             throw new RuntimeException(e);
         }
         return rooms;
+    }
+
+    @Override
+    public String getRoomPath(String typeRoom) {
+        try {
+            if (typeRoom.equals("singola")) {
+                return imageProperties.getProperty("SINGLE_ROOM");
+            }
+            else return imageProperties.getProperty("DOUBLE_ROOM");
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Room fillRoom(ResultSet resultSet) throws SQLException {

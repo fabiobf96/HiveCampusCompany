@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.logic.bean;
 
+import it.hivecampuscompany.hivecampus.logic.decorator.RoomBeanDecorator;
 import it.hivecampuscompany.hivecampus.logic.model.Room;
 
 import java.util.List;

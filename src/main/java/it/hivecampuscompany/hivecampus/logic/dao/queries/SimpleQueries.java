@@ -63,43 +63,13 @@ public class SimpleQueries {
         return res;
     }
 
-    public static ResultSet selectRoomsByFilters(Connection conn, FiltersBean filtersBean) throws SQLException {
-        String sql = buildRoomFiltersQuery(filtersBean);
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            int parameterIndex = 1;
-            pstmt.setString(parameterIndex++, filtersBean.getUniversity());
-            pstmt.setString(parameterIndex++, String.valueOf(filtersBean.getDistance()));
-            pstmt.setString(parameterIndex++, String.valueOf(filtersBean.getMaxPrice()));
-
-            // Set filter values if true
-            if (Boolean.parseBoolean(String.valueOf(filtersBean.getPrivateBathroom()))) {
-                pstmt.setString(parameterIndex++, "true");
-            }
-
-            if (Boolean.parseBoolean(String.valueOf(filtersBean.getBalcony()))) {
-                pstmt.setString(parameterIndex++, "true");
-            }
-
-            if (Boolean.parseBoolean(String.valueOf(filtersBean.getConditioner()))) {
-                pstmt.setString(parameterIndex++, "true");
-            }
-
-            if (Boolean.parseBoolean(String.valueOf(filtersBean.getTvConnection()))) {
-                pstmt.setString(parameterIndex, "true");
-            }
-
-            return pstmt.executeQuery();
-        }
-    }
-
-
     public static String buildRoomFiltersQuery(FiltersBean filtersBean) {
         String sql = """
-        SELECT S.idStanza, S.tipologia, S.superficie, S.bagnoPrivato, S.balcone, S.condizionatore, S.tv, S.descrizione, S.prezzo, S.meseDisponibilita, I.*, U.nome, (6371 * 2 * ASIN(SQRT(POWER(SIN(RADIANS(I.latitudine - U.latitudine) / 2), 2) + COS(RADIANS(U.latitudine)) * COS(RADIANS(I.latitudine)) * POWER(SIN(RADIANS(I.longitudine - U.longitudine) / 2), 2))))
+        SELECT S.idStanza, S.tipologia AS tipologiaStanza, S.superficie AS superficieStanza, S.bagnoPrivato, S.balcone, S.condizionatore, S.tv, S.descrizione AS descrizioneStanza, S.disponibilita, S.meseDisponibilita, S.prezzo,
+        I.*, U.nome AS universita, (6371 * 2 * ASIN(SQRT(POWER(SIN(RADIANS(I.latitudine - U.latitudine) / 2), 2) + COS(RADIANS(U.latitudine)) * COS(RADIANS(I.latitudine)) * POWER(SIN(RADIANS(I.longitudine - U.longitudine) / 2), 2)))) AS distanza
         FROM hivecampus.universita U
         JOIN hivecampus.immobile I ON U.citta = I.citta
-        JOIN hivecampus.stanza S ON I.idImmobile = S.idImmobile
+        JOIN hivecampus.stanza S ON I.idImmobile = S.immobile
         WHERE U.nome = ?
         AND (6371 * 2 * ASIN(SQRT(POWER(SIN(RADIANS(I.latitudine - U.latitudine) / 2), 2) + COS(RADIANS(U.latitudine)) * COS(RADIANS(I.latitudine)) * POWER(SIN(RADIANS(I.longitudine - U.longitudine) / 2), 2)))) <= ?
         AND S.prezzo <= ?
@@ -108,19 +78,19 @@ public class SimpleQueries {
 
         // Add dynamic filters if true
         if (Boolean.parseBoolean(String.valueOf(filtersBean.getPrivateBathroom()))) {
-            sql += " AND S.bagnoPrivato = ?";
+            sql += " AND S.bagnoPrivato = true";
         }
 
         if (Boolean.parseBoolean(String.valueOf(filtersBean.getBalcony()))) {
-            sql += " AND S.balcone = ?";
+            sql += " AND S.balcone = true";
         }
 
         if (Boolean.parseBoolean(String.valueOf(filtersBean.getConditioner()))) {
-            sql += " AND S.condizionatore = ?";
+            sql += " AND S.condizionatore = true";
         }
 
         if (Boolean.parseBoolean(String.valueOf(filtersBean.getTvConnection()))) {
-            sql += " AND S.tv = ?";
+            sql += " AND S.tv = true";
         }
 
         return sql;

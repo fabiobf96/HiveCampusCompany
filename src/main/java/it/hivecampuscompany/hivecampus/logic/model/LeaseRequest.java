@@ -2,26 +2,30 @@ package it.hivecampuscompany.hivecampus.logic.model;
 
 import it.hivecampuscompany.hivecampus.logic.bean.LeaseRequestBean;
 
-public class LeaseRequest {
+public class LeaseRequest { // implements Observer
     private Account account;
     private Room room;
     private int id;
-    private String date;
+    private String startPermanence;
     private String typePermanence;
+
+    private String statusRequest; //
 
     public LeaseRequest() {
     }
 
-    public LeaseRequest(int requestId, Account account, String startDate, String duration) {
+    public LeaseRequest(int requestId, Account account, String startPermanence, String duration, String leaseStatus) {
         this.id = requestId;
         this.account = account;
-        this.date = startDate;
+        this.startPermanence = startPermanence;
         this.typePermanence = duration;
+        this.statusRequest = leaseStatus;
     }
 
     public LeaseRequest(LeaseRequestBean leaseRequestBean) {
-        date = leaseRequestBean.getStartPermanence();
+        startPermanence = leaseRequestBean.getStartPermanence();
         typePermanence = leaseRequestBean.getTypePermanence();
+        statusRequest = leaseRequestBean.getStatusRequest();
     }
 
     public Account getAccount() {
@@ -36,8 +40,8 @@ public class LeaseRequest {
         return id;
     }
 
-    public String getDate() {
-        return date;
+    public String getStartPermanence() {
+        return startPermanence;
     }
 
     public String getTypePermanence() {
@@ -56,11 +60,19 @@ public class LeaseRequest {
         this.id = id;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartPermanence(String startPermanence) {
+        this.startPermanence = startPermanence;
     }
 
     public void setTypePermanence(String typePermanence) {
         this.typePermanence = typePermanence;
+    }
+
+    public String getStatusRequest() {
+        return statusRequest;
+    }
+
+    public void setStatusRequest(String statusRequest) {
+        this.statusRequest = statusRequest;
     }
 }

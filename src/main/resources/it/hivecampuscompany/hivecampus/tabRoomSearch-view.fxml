@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.graphic.javafx.roomsearchpage.RoomSearchJavaFxController">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <VBox>
          <children>
@@ -78,7 +78,7 @@
             <HBox>
                <children>
                   <TextField fx:id="searchField" promptText="Inserire nome università..." style="-fx-border-color: grey; -fx-border-radius: 3;" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnSearch" text="Cerca"  /> <!--onAction="#handleSearchButtonClick"-->
+                  <Button fx:id="btnSearch" text="Cerca"  />
                </children>
             </HBox>
             <ListView fx:id="lvRooms" style="-fx-border-color: grey; -fx-border-radius: 5;" VBox.vgrow="ALWAYS" />

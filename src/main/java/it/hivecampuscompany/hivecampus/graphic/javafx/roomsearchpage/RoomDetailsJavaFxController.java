@@ -1,8 +1,10 @@
 package it.hivecampuscompany.hivecampus.graphic.javafx.roomsearchpage;
 
+import it.hivecampuscompany.hivecampus.graphic.javafx.leaserequestspage.LeaseRequestJavaFxController;
 import it.hivecampuscompany.hivecampus.logic.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.logic.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.logic.control.RoomLeaseRequestManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +18,11 @@ import java.io.IOException;
 
 public class RoomDetailsJavaFxController {
 
+    private RoomLeaseRequestManager manager;
+
     private SessionBean sessionBean;
+
+    private RoomBean roomBean;
 
     @FXML
     private Label lblTitle;
@@ -81,26 +87,30 @@ public class RoomDetailsJavaFxController {
     public RoomDetailsJavaFxController(){
         // Default constructor
     }
-    /*
-    public void initialize(RoomBean roomBean, AccountBean accountBean, SessionBean sessionBean){
-        lblTitle.setText("Stanza " + roomBean.getRoomType() + " - " + roomBean.getStreet() + ", " + roomBean.getStreetNumber() + ", " + roomBean.getCity() + " - € " + roomBean.getPrice() + "/mese");
+
+    public void initialize(SessionBean sessionBean, RoomLeaseRequestManager manager, RoomBean roomBean, AccountBean accountBean){
+        this.sessionBean = sessionBean;
+        this.manager = manager;
+        this.roomBean = roomBean;
+
+        lblTitle.setText("Stanza " + roomBean.getTypeRoom() + " - " + roomBean.getAddress() + " - € " + roomBean.getPrice() + "/mese");
         lblUniversity.setText(roomBean.getUniversity());
-        lblDistance.setText(roomBean.getDistance());
+        lblDistance.setText(String.valueOf(roomBean.getDistance()));
         lblHType.setText(roomBean.getHouseType());
-        lblHSurface.setText(roomBean.getHouseSurface());
-        lblNumRooms.setText(roomBean.getNumRooms());
-        lblNumBathrooms.setText(roomBean.getNumBathrooms());
-        lblFloor.setText(roomBean.getFloor());
-        lblElevator.setText(roomBean.getElevator());
+        lblHSurface.setText(String.valueOf(roomBean.getHouseSurface()));
+        lblNumRooms.setText(String.valueOf(roomBean.getNumRooms()));
+        lblNumBathrooms.setText(String.valueOf(roomBean.getNumBathrooms()));
+        lblFloor.setText(String.valueOf(roomBean.getFloor()));
+        lblElevator.setText(String.valueOf(roomBean.getElevator()));
         lblHeating.setText(roomBean.getHeating());
         txfHDescription.setText(formatText(roomBean.getHouseDescription(), 50));
         lblEmail.setText(accountBean.getEmail());
         lblTelephone.setText(accountBean.getPhoneNumber());
-        lblRSurface.setText(roomBean.getRoomSurface());
-        lblBath.setText(roomBean.getPrivateBathroom());
-        lblBalcony.setText(roomBean.getBalcony());
-        lblConditioner.setText(roomBean.getConditioner());
-        lblTV.setText(roomBean.getTvConnection());
+        lblRSurface.setText(String.valueOf(roomBean.getRoomSurface()));
+        lblBath.setText(String.valueOf(roomBean.getPrivateBathroom()));
+        lblBalcony.setText(String.valueOf(roomBean.getBalcony()));
+        lblConditioner.setText(String.valueOf(roomBean.getConditioner()));
+        lblTV.setText(String.valueOf(roomBean.getTvConnection()));
         txfRDescription.setText(formatText(roomBean.getRoomDescription(), 50));
         lblAvailability.setText(roomBean.getAvailability());
     }
@@ -130,11 +140,11 @@ public class RoomDetailsJavaFxController {
     @FXML
     public void handleLeaseRequestClick()  {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampusteam/hivecampus/leaseRequestForm-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/leaseRequestForm-view.fxml"));
             Parent root = loader.load();
 
-            // LeaseRequestJavaFxController
-            //loader getController
+            LeaseRequestJavaFxController leaseRequestJavaFxController = loader.getController();
+            leaseRequestJavaFxController.initialize(sessionBean, manager, roomBean);
 
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
@@ -150,9 +160,4 @@ public class RoomDetailsJavaFxController {
         }
 
     }
-
-
-     */
-
-
 }

@@ -14,9 +14,13 @@ module it.hivecampuscompany.hivecampus {
 
     exports it.hivecampuscompany.hivecampus.graphic.javafx.roomsearchpage;
     exports it.hivecampuscompany.hivecampus.graphic.javafx.leaserequestspage;
-    exports it.hivecampuscompany.hivecampus;
     exports it.hivecampuscompany.hivecampus.graphic.javafx.login;
+    exports it.hivecampuscompany.hivecampus;
     exports it.hivecampuscompany.hivecampus.logic.control;
     exports it.hivecampuscompany.hivecampus.logic.bean;
     exports it.hivecampuscompany.hivecampus.logic.exception;
+    exports it.hivecampuscompany.hivecampus.logic.facade;
+    exports it.hivecampuscompany.hivecampus.logic.model;
+    exports it.hivecampuscompany.hivecampus.logic.dao;
+
 }

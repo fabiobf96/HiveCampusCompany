@@ -7,10 +7,7 @@ import it.hivecampuscompany.hivecampus.logic.control.RoomLeaseRequestManager;
 import it.hivecampuscompany.hivecampus.logic.exception.InvalidSessionException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -19,7 +16,10 @@ import java.util.List;
 public class RoomSearchJavaFxController {
 
     private RoomLeaseRequestManager roomLeaseRequestManager;
-    private SessionBean sessionBean;
+    private SessionBean sessionBean = new SessionBean();
+
+    @FXML
+    private Button btnSearch;
 
     @FXML
     private TextField searchField;
@@ -45,14 +45,16 @@ public class RoomSearchJavaFxController {
     @FXML
     private ListView<VBox> lvRooms;
 
-    public RoomSearchJavaFxController() throws InvalidSessionException {
-        // Default constructor required by FXML
-        this.roomLeaseRequestManager = new RoomLeaseRequestManager(sessionBean);
+    public RoomSearchJavaFxController() {
+        // Default constructor
     }
 
-    public RoomSearchJavaFxController(SessionBean sessionBean) {
+    public void initialize(SessionBean sessionBean) throws InvalidSessionException {
         this.sessionBean = sessionBean;
+        this.roomLeaseRequestManager = new RoomLeaseRequestManager(sessionBean);
+        btnSearch.setOnAction(event -> handleSearchButtonClick());
     }
+
 
     @FXML
     public void handleSearchButtonClick() {
@@ -85,7 +87,7 @@ public class RoomSearchJavaFxController {
 
             for (RoomBean roomBean : roomBeans) {
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampusteam/hivecampus/previewRoom-view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoom-view.fxml"));
                 VBox previewRoomVBox = loader.load();
 
                 PreviewRoomJavaFxController previewRoomController = loader.getController();
